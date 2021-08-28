@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivSave"
+            app:layout_constraintBottom_toBottomOf="@id/ivSave"
+            android:src="@drawable/ic_back"
+            android:layout_marginStart="18dp"
+            app:tint="@color/dark_blue"/>
+
+        <ImageView
+            android:id="@+id/ivSave"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="18dp"
+            android:src="@drawable/ic_bookmark_outline"/>
+
+        <TextView
+            android:id="@+id/tvRead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/ivSave"
+            app:layout_constraintTop_toTopOf="@id/ivSave"
+            app:layout_constraintBottom_toBottomOf="@id/ivSave"
+            android:layout_marginEnd="14dp"
+            android:text="@string/read"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:drawablePadding="8dp"
+            android:textColor="@color/dark_blue"
+            android:fontFamily="@font/gilroy_semibold"
+            android:background="@drawable/bg_outline_dark"
+            app:drawableStartCompat="@drawable/ic_book" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBook"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="5:7"
+            app:layout_constraintWidth_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.2"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="25dp"
+            app:cardBackgroundColor="@color/transparent">
+
+            <ImageView
+                android:id="@+id/ivThumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@color/yellow"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.75"
+            tools:text="An Amazing Developer"
+            android:gravity="center"
+            android:textSize="28sp"
+            app:layout_constraintTop_toBottomOf="@id/cvBook"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.2"
+            android:fontFamily="@font/gilroy_extrabold"
+            android:textColor="@color/dark_blue"/>
+
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintEnd_toEndOf="@id/tvTitle"
+            tools:text="Kshitij Kumar"
+            android:gravity="center"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/gilroy_semibold"
+            android:textColor="@color/dark_blue"
+            android:textSize="18sp"/>
+
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.95"
+            app:layout_constraintTop_toBottomOf="@id/tvAuthor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.2"
+            tools:progress="63"
+            android:thumbTint="@color/dark_blue"
+            android:progressTint="@color/dark_blue"/>
+
+        <TextView
+            android:id="@+id/tvElapsedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="12:20"
+            app:layout_constraintStart_toStartOf="@id/seekbar"
+            app:layout_constraintTop_toBottomOf="@id/seekbar"
+            android:textSize="12sp"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/dark_blue"/>
+
+        <TextView
+            android:id="@+id/tvTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="22:40"
+            app:layout_constraintEnd_toEndOf="@id/seekbar"
+            app:layout_constraintTop_toBottomOf="@id/seekbar"
+            android:textSize="12sp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/gilroy_medium"
+            android:textColor="@color/dark_blue"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabPlayPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seekbar"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_play"
+            app:tint="@color/white"
+            android:backgroundTint="@color/dark_blue"/>
+
+        <LinearLayout
+            android:id="@+id/llTimer"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintWidth_percent="0.4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/glVCenter"
+            android:gravity="center"
+            android:layout_marginBottom="18dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/bg_grey_rounded_corner">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_moon"
+                android:layout_marginEnd="4dp"
+                android:rotation="45"
+                app:tint="@color/dark_blue"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sleep_timer"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/gilroy_semibold"
+                android:textColor="@color/dark_blue"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSpeed"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintWidth_percent="0.4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/glVCenter"
+            android:gravity="center"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="18dp"
+            android:background="@drawable/bg_grey_rounded_corner">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="1x"
+                android:layout_marginEnd="4dp"
+                android:fontFamily="@font/gilroy_extrabold"
+                android:textColor="@color/dark_blue"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/gilroy_semibold"
+                android:textColor="@color/dark_blue"/>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glVCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="0.5"
+            android:orientation="vertical"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

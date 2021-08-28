@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Audino</string>
+    <string name="share">Share</string>
+    <string name="read">read</string>
+    <string name="sleep_timer">Sleep Timer</string>
+    <string name="speed">Speed</string>
 </resources>

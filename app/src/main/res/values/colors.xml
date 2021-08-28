@@ -15,5 +15,7 @@
     <color name="black_1">#0D0913</color>
 
     <color name="transparent">#00000000</color>
+    <color name="black_2">#070A0B</color>
+    <color name="light_grey">#EFEFFA</color>
 
 </resources>
