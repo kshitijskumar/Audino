@@ -12,14 +12,18 @@
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/drawable/ic_book.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/drawable/ic_bookmark.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/drawable/ic_pause.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/drawable/ic_play.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/drawable/layout_grid_book.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/activity_main.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/bg_grey_rounded_corner.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/fragment_book_details_bottom_sheet.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/fragment_genre.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/fragment_home.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/fragment_player.xml" value="0.2" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/layout_book.xml" value="0.536" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/layout_category_list.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/layout_grid_book.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/SUDESH/AndroidStudioProjects/Audino/app/src/main/res/layout/layout_now_playing.xml" value="0.49432739059967584" />
       </map>
     </option>

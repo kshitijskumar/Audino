@@ -19,4 +19,14 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater)
         return binding.root
     }
+
+
+    companion object {
+        fun newInstance(bundle: Bundle?): HomeFragment {
+            return HomeFragment().apply {
+                arguments = bundle
+            }
+        }
+        const val TAG = "HOME_FRAGMENT"
+    }
 }
