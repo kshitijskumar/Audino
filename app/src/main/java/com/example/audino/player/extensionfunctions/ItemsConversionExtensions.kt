@@ -27,3 +27,10 @@ fun BookResponse.toMediaItem() : MediaBrowserCompat.MediaItem {
         .build()
     return MediaBrowserCompat.MediaItem(desc, FLAG_PLAYABLE)
 }
+
+fun MediaBrowserCompat.MediaItem.toGenreResponse() : GenreResponse {
+    return GenreResponse(
+        genreId = mediaId,
+        genreName = description.title.toString()
+    )
+}

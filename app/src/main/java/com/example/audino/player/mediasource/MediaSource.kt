@@ -20,11 +20,13 @@ class MediaSource(
 
     private var allGenres: List<GenreResponse> = listOf()
 
-    private suspend fun getAllBooks() = withContext(Dispatchers.IO) {
+    suspend fun getAllBooks() = withContext(Dispatchers.IO) {
+        Log.d("GenresList", "all books")
         sourceState = STATE_INITIALIZING
         try {
             val apiResponse = mainRepository.getAllBooks()
             allGenres = apiResponse.genres
+            sourceState = STATE_INITIALIZED
         } catch (e: Exception) {
             sourceState = STATE_ERROR
             Log.d("MediaSource", "error is: ${e.message}")

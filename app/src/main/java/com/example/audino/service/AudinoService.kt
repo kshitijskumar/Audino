@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.example.audino.player.callbacks.AudinoSessionCallback
@@ -14,14 +15,21 @@ import com.example.audino.utils.Constants.ROOT_ID
 import com.example.audino.utils.Injector
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class AudioBookService : MediaBrowserServiceCompat() {
+class AudinoService : MediaBrowserServiceCompat() {
 
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var stateBuilder: PlaybackStateCompat.Builder
     private lateinit var exoplayer: SimpleExoPlayer
 
     private var isForeground = false
+
+    private val serviceJob = Job()
+    private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     private val mediaSource by lazy {
         Injector.provideMediaSource()
@@ -31,6 +39,8 @@ class AudioBookService : MediaBrowserServiceCompat() {
 
     override fun onCreate() {
         super.onCreate()
+
+        Log.d("GenresList", "service created")
 
         exoplayer = SimpleExoPlayer.Builder(this)
             .build()
@@ -51,6 +61,11 @@ class AudioBookService : MediaBrowserServiceCompat() {
             mediaSession.sessionToken,
             PlayerNotificationListener()
         )
+
+        serviceScope.launch {
+            Log.d("GenresList", "launch and fetch")
+            mediaSource.getAllBooks()
+        }
     }
 
     override fun onGetRoot(
@@ -65,7 +80,9 @@ class AudioBookService : MediaBrowserServiceCompat() {
         parentId: String,
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
     ) {
+        Log.d("GenresList", "onLoadChildren for $parentId")
         val caseHandled = mediaSource.whenReady {
+            Log.d("GenresList", "onLoadChildren handled")
             if (it) {
                 //initialized
                 result.sendResult(mediaSource.getMediaItemsForId(parentId))
@@ -77,6 +94,7 @@ class AudioBookService : MediaBrowserServiceCompat() {
             }
         }
         if (!caseHandled) {
+            Log.d("GenresList", "onLoadChildren detach")
             //mediasource not initialized. detach this, sendResult is stored in actions list
             result.detach()
         }
@@ -99,7 +117,7 @@ class AudioBookService : MediaBrowserServiceCompat() {
             if (ongoing && !isForeground) {
                 ContextCompat.startForegroundService(
                     applicationContext,
-                    Intent(applicationContext, this@AudioBookService::class.java)
+                    Intent(applicationContext, this@AudinoService::class.java)
                 )
                 startForeground(notificationId, notification)
                 isForeground = true
