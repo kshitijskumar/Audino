@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         volumeControlStream = AudioManager.STREAM_MUSIC
         setupFragmentTransaction()
 
-        observeValues()
+//        observeValues()
     }
 
     private fun observeValues() {

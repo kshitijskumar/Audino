@@ -32,7 +32,7 @@ class AudinoService : MediaBrowserServiceCompat() {
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     private val mediaSource by lazy {
-        Injector.provideMediaSource()
+        Injector.getInjector().provideMediaSource()
     }
 
     private lateinit var notificationManager: AudinoNotificationManager

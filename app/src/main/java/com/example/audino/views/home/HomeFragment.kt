@@ -1,15 +1,26 @@
 package com.example.audino.views.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.audino.databinding.FragmentHomeBinding
+import com.example.audino.utils.Injector
+import com.example.audino.viewmodels.MainViewModel
+import com.example.audino.views.adapters.GenreListAdapter
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var genreListAdapter: GenreListAdapter
+
+    private val mainViewModel by lazy {
+        MainViewModel.getMainViewModel(requireActivity(), Injector.getInjector().provideAudinoServiceConnection(requireContext()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,6 +31,30 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //TODO: remove this
+        binding.tvGreet.text = "Hey Kshitij!"
+
+        initRecyclerView()
+        observeValues()
+    }
+
+    private fun initRecyclerView() {
+        genreListAdapter = GenreListAdapter(Injector.getInjector().provideAudinoServiceConnection(requireContext()))
+        binding.rvBooks.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = genreListAdapter
+        }
+    }
+
+    private fun observeValues() {
+        mainViewModel.genresList.observe(viewLifecycleOwner) {
+            genreListAdapter.submitList(it)
+            Log.d("GenreList", "$it")
+        }
+    }
 
     companion object {
         fun newInstance(bundle: Bundle?): HomeFragment {

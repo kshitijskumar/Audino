@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class MediaSource(
-    private val mainRepository: MainRepository = Injector.provideMainRepository()
+    private val mainRepository: MainRepository = Injector.getInjector().provideMainRepository()
 ) {
 
     private val actionsList = mutableListOf<((Boolean) -> Unit)>()

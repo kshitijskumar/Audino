@@ -28,6 +28,7 @@ class MainViewModel(
                 val reqList = children.map {
                     it.toGenreResponse()
                 }
+                //this list for now contains no books just genre, will get the books too when showing this to ui
                 _genresList.postValue(reqList)
             }
         })
