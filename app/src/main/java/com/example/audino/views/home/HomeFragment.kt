@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
             }
 
             override fun onBookClicked(book: BookResponse) {
-                Toast.makeText(requireContext(), "book id is: ${book.bookId}", Toast.LENGTH_SHORT).show()
                 BookDetailsBottomSheet.newInstance().apply {
                     setBookDetails(book)
                     show(this@HomeFragment.childFragmentManager, BookDetailsBottomSheet.TAG)
