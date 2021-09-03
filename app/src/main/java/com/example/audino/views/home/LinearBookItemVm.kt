@@ -6,8 +6,9 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import com.bumptech.glide.Glide
 import com.example.audino.model.response.BookResponse
+import com.example.audino.views.adapters.BooksAdapter
 
-class LinearBookItemVm {
+class LinearBookItemVm() {
 
     val title = ObservableField("")
     val authorName = ObservableField("")
@@ -15,11 +16,12 @@ class LinearBookItemVm {
     val summary = ObservableField("")
     val description = ObservableField("")
 
+    private var onBookClickListener: BooksAdapter.OnBookClick? = null
+
     private lateinit var book: BookResponse
 
     fun initData(book: BookResponse) {
         this.book = book
-        Log.d("GenreList", "initForBooks: $book")
         title.set(book.bookName)
         authorName.set(book.authorName)
         thumbnailUrl.set(book.thumbnailUrl)
@@ -27,6 +29,13 @@ class LinearBookItemVm {
         description.set(book.description)
     }
 
+    fun setOnBookClick(listener: BooksAdapter.OnBookClick) {
+        onBookClickListener = listener
+    }
+
+    fun onBookClicked() {
+        onBookClickListener?.onBookClick(book)
+    }
 
     companion object {
         @JvmStatic

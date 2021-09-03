@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="@color/transparent">
+        app:cardBackgroundColor="@color/transparent"
+        android:onClick="@{() -> vm.onBookClicked()}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"

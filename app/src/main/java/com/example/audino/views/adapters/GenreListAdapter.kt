@@ -16,6 +16,8 @@ class GenreListAdapter(private val serviceConnection: AudinoServiceConnection) :
     private val booksListGenreIdMap = mutableMapOf<String, List<BookResponse>>()
     private val booksIdAdapterMap = mutableMapOf<String, BooksAdapter>()
 
+    private var genreItemClickListener: OnGenreItemClick? = null
+
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<GenreResponse>() {
             override fun areItemsTheSame(oldItem: GenreResponse, newItem: GenreResponse): Boolean {
@@ -41,6 +43,15 @@ class GenreListAdapter(private val serviceConnection: AudinoServiceConnection) :
         holder.onBind(getItem(position))
     }
 
+    fun setOnGenreClickListener(listener: OnGenreItemClick) {
+        genreItemClickListener = listener
+    }
+
+    interface OnGenreItemClick {
+        fun onSeeMoreClick(genreId: String)
+        fun onBookClicked(book: BookResponse)
+    }
+
     inner class GenreViewHolder(private val binding: LayoutCategoryListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(genre: GenreResponse) {
             binding.tvGenre.text = genre.genreName
@@ -52,6 +63,11 @@ class GenreListAdapter(private val serviceConnection: AudinoServiceConnection) :
             } else {
                 Log.d("GenreList", "creating adapter")
                 val bookAdapter = BooksAdapter(true)
+                bookAdapter.setOnBookClickListener(object : BooksAdapter.OnBookClick {
+                    override fun onBookClick(book: BookResponse) {
+                        genreItemClickListener?.onBookClicked(book)
+                    }
+                })
                 booksIdAdapterMap[genre.genreId!!] = bookAdapter
                 bookAdapter
             }
@@ -60,13 +76,14 @@ class GenreListAdapter(private val serviceConnection: AudinoServiceConnection) :
             val booksList = if (booksListGenreIdMap.containsKey(genre.genreId)) {
                 booksListGenreIdMap[genre.genreId]
             } else {
-                Log.d("GenreList", "subscribing list")
                 subscribeToGetBooksList(genre.genreId!!)
                 //send empty list for starters, then when onChildren loaded is called, we update the values
                 listOf()
             }
 
             adapter?.submitList(booksList)
+
+
         }
 
         private fun subscribeToGetBooksList(parentId: String) {

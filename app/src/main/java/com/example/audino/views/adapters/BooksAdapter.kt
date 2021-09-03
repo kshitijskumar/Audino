@@ -28,6 +28,8 @@ class BooksAdapter(private val isLinear: Boolean = true) :  ListAdapter<BookResp
         }
     }
 
+    private var onBookClickListener: OnBookClick? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return if (isLinear) {
@@ -46,12 +48,22 @@ class BooksAdapter(private val isLinear: Boolean = true) :  ListAdapter<BookResp
         }
     }
 
+    fun setOnBookClickListener(listener: OnBookClick) {
+        onBookClickListener = listener
+    }
+
+    interface OnBookClick {
+        fun onBookClick(book: BookResponse)
+    }
+
     inner class LinearBooksViewHolder(private val binding: LayoutBookBinding) : RecyclerView.ViewHolder(binding.root) {
         private val itemVm = LinearBookItemVm()
 
         fun onBind(book: BookResponse) {
-            Log.d("GenreList", "onBind for books")
             itemVm.initData(book)
+            onBookClickListener?.let {
+                itemVm.setOnBookClick(it)
+            }
         }
 
         init {

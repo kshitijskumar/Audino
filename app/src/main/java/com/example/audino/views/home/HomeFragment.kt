@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.audino.databinding.FragmentHomeBinding
+import com.example.audino.model.response.BookResponse
 import com.example.audino.utils.Injector
 import com.example.audino.viewmodels.MainViewModel
 import com.example.audino.views.adapters.GenreListAdapter
@@ -43,6 +45,15 @@ class HomeFragment : Fragment() {
 
     private fun initRecyclerView() {
         genreListAdapter = GenreListAdapter(Injector.getInjector().provideAudinoServiceConnection(requireContext()))
+        genreListAdapter.setOnGenreClickListener(object : GenreListAdapter.OnGenreItemClick {
+            override fun onSeeMoreClick(genreId: String) {
+                Toast.makeText(requireContext(), "see more clicked for: $genreId", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onBookClicked(book: BookResponse) {
+                Toast.makeText(requireContext(), "book id is: ${book.bookId}", Toast.LENGTH_SHORT).show()
+            }
+        })
         binding.rvBooks.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = genreListAdapter

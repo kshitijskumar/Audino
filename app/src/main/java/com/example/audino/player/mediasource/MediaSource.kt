@@ -10,7 +10,6 @@ import com.example.audino.utils.Constants.ROOT_ID
 import com.example.audino.utils.Injector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class MediaSource(
     private val mainRepository: MainRepository = Injector.getInjector().provideMainRepository()
@@ -45,7 +44,7 @@ class MediaSource(
             field = value
         }
 
-    fun whenReady(action: (Boolean) -> Unit) : Boolean {
+    fun whenReady(action: (Boolean) -> Unit): Boolean {
         return if (sourceState == STATE_CREATED || sourceState == STATE_INITIALIZING) {
             actionsList.add(action)
             false
@@ -55,10 +54,10 @@ class MediaSource(
         }
     }
 
-    fun getMediaItemsForId(id: String) : MutableList<MediaBrowserCompat.MediaItem> {
+    fun getMediaItemsForId(id: String): MutableList<MediaBrowserCompat.MediaItem> {
         val mediaItemsList = mutableListOf<MediaBrowserCompat.MediaItem>()
 
-        when(id) {
+        when (id) {
             ROOT_ID -> {
                 //if rootid then the home screen is shown
                 allGenres.forEach { genre ->
@@ -77,7 +76,6 @@ class MediaSource(
 
         return mediaItemsList
     }
-
 
 
 }
