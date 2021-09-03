@@ -1,6 +1,5 @@
 package com.example.audino.views.home
 
-import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField

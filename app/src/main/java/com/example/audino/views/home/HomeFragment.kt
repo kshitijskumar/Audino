@@ -14,6 +14,7 @@ import com.example.audino.model.response.BookResponse
 import com.example.audino.utils.Injector
 import com.example.audino.viewmodels.MainViewModel
 import com.example.audino.views.adapters.GenreListAdapter
+import com.example.audino.views.bookdetails.BookDetailsBottomSheet
 
 class HomeFragment : Fragment() {
 
@@ -52,6 +53,10 @@ class HomeFragment : Fragment() {
 
             override fun onBookClicked(book: BookResponse) {
                 Toast.makeText(requireContext(), "book id is: ${book.bookId}", Toast.LENGTH_SHORT).show()
+                BookDetailsBottomSheet.newInstance().apply {
+                    setBookDetails(book)
+                    show(this@HomeFragment.childFragmentManager, BookDetailsBottomSheet.TAG)
+                }
             }
         })
         binding.rvBooks.apply {
