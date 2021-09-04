@@ -145,6 +145,7 @@ class AudinoService : MediaBrowserServiceCompat() {
     private inner class PlayerNotificationListener: PlayerNotificationManager.NotificationListener {
         override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
             super.onNotificationCancelled(notificationId, dismissedByUser)
+            Log.d("ServiceLifeCycle", "noti cancelled")
             stopForeground(true)
             isForeground = false
             stopSelf()
@@ -177,8 +178,7 @@ class AudinoService : MediaBrowserServiceCompat() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        Log.d("ServiceLifeCycle", "onDestroy")
         localBroadcastManager.unregisterReceiver(localBR)
+        super.onDestroy()
     }
 }
