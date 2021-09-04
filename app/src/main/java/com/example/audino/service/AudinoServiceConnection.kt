@@ -55,6 +55,10 @@ class AudinoServiceConnection(
         mediaBrowser.subscribe(parentId, callback)
     }
 
+    fun playFromMediaId(mediaId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
+        subscribe(mediaId, callback)
+    }
+
 
     private inner class AudinoConnectionCallback(private val context: Context) : MediaBrowserCompat.ConnectionCallback() {
         override fun onConnected() {

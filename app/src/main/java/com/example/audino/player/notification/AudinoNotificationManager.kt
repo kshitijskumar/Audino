@@ -1,18 +1,26 @@
 package com.example.audino.player.notification
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.audino.R
 import com.example.audino.utils.Constants.CHANNEL_ID
+import com.example.audino.utils.Constants.CHANNEL_NAME
 import com.example.audino.utils.Constants.NOTIFICATION_ID
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import kotlinx.coroutines.*
 
@@ -30,6 +38,7 @@ class AudinoNotificationManager(
 
     init {
         val mediaController = MediaControllerCompat(context, sessionToken)
+        createNotificationChannel()
         notificationManager = PlayerNotificationManager
             .Builder(
                 context,
@@ -37,6 +46,7 @@ class AudinoNotificationManager(
                 CHANNEL_ID
             ).apply {
                 setMediaDescriptionAdapter(DescriptionAdapter(mediaController))
+                setNotificationListener(notificationListener)
             }
             .build().apply {
                 setMediaSessionToken(sessionToken)
@@ -47,7 +57,23 @@ class AudinoNotificationManager(
 
     fun hideNotification() = notificationManager.setPlayer(null)
 
-    fun showNotification(player: Player) = notificationManager.setPlayer(player)
+    fun showNotification(player: Player) {
+        Log.d("PlayBook", "Player state: ${player.playbackState}")
+        SimpleExoPlayer.STATE_READY
+        notificationManager.setPlayer(player)
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val sysNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            sysNotificationManager.createNotificationChannel(channel)
+        }
+    }
 
     private inner class DescriptionAdapter(
         private val controllerCompat: MediaControllerCompat

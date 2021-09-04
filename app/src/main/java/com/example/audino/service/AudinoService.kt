@@ -40,8 +40,7 @@ class AudinoService : MediaBrowserServiceCompat() {
     override fun onCreate() {
         super.onCreate()
 
-        Log.d("GenresList", "service created")
-
+        Log.d("ServiceLife", "onCreate")
         exoplayer = SimpleExoPlayer.Builder(this)
             .build()
 
@@ -52,7 +51,6 @@ class AudinoService : MediaBrowserServiceCompat() {
                 .setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PAUSE)
             setPlaybackState(stateBuilder.build())
             setSessionToken(sessionToken)
-            setCallback(AudinoSessionCallback(exoplayer))
         }
 
         //setup notification
@@ -61,6 +59,8 @@ class AudinoService : MediaBrowserServiceCompat() {
             mediaSession.sessionToken,
             PlayerNotificationListener()
         )
+
+        mediaSession.setCallback(AudinoSessionCallback(exoplayer, mediaSession, notificationManager))
 
         serviceScope.launch {
             Log.d("GenresList", "launch and fetch")
@@ -114,6 +114,7 @@ class AudinoService : MediaBrowserServiceCompat() {
             ongoing: Boolean
         ) {
             super.onNotificationPosted(notificationId, notification, ongoing)
+            Log.d("PlayBook", "notification posted")
             if (ongoing && !isForeground) {
                 ContextCompat.startForegroundService(
                     applicationContext,

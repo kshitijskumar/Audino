@@ -1,8 +1,12 @@
 package com.example.audino.viewmodels
 
+import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
+import android.util.Log
 import androidx.lifecycle.*
+import com.example.audino.model.response.BookResponse
 import com.example.audino.model.response.GenreResponse
+import com.example.audino.player.extensionfunctions.toBookResponse
 import com.example.audino.player.extensionfunctions.toGenreResponse
 import com.example.audino.service.AudinoServiceConnection
 import com.example.audino.utils.Constants.ROOT_ID
@@ -32,6 +36,13 @@ class MainViewModel(
                 _genresList.postValue(reqList)
             }
         })
+    }
+
+    fun playBookFromStart(book: BookResponse) {
+        val bundle = Bundle().apply {
+            putSerializable("Book", book)
+        }
+        serviceConnection.transportControls.playFromMediaId(book.bookId, bundle)
     }
 
     companion object {

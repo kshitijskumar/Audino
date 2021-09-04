@@ -3,6 +3,7 @@ package com.example.audino.views.activities
 import android.media.AudioManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import com.example.audino.R
 import com.example.audino.databinding.ActivityMainBinding
@@ -37,12 +38,19 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
         volumeControlStream = AudioManager.STREAM_MUSIC
         setupFragmentTransaction()
 
-//        observeValues()
+        observeValues()
     }
 
     private fun observeValues() {
-        mainViewModel.genresList.observe(this) {
-            Log.d("GenresList", "result: $it")
+//        mainViewModel.genresList.observe(this) {
+//            Log.d("GenresList", "result: $it")
+//        }
+        mainViewModel.currBook.observe(this) {
+            Log.d("PlayBook", "currBook: $it")
+        }
+        mainViewModel.playbackState.observe(this) {
+            Log.d("PlayBook", "playback state: $it")
+            PlaybackStateCompat.STATE_PAUSED
         }
     }
 
