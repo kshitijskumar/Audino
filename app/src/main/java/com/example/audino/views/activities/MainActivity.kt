@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import com.example.audino.R
 import com.example.audino.databinding.ActivityMainBinding
+import com.example.audino.model.response.BookResponse
 import com.example.audino.service.AudinoServiceConnection
 import com.example.audino.viewmodels.MainViewModel
+import com.example.audino.views.callbacks.SwitchFragmentCallback
 import com.example.audino.views.home.HomeFragment
+import com.example.audino.views.player.PlayerFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -49,4 +52,15 @@ class MainActivity : AppCompatActivity() {
             .commitNow()
     }
 
+    override fun openPlayerFragment(book: BookResponse) {
+        Log.d("ClickEvent", "in acitivity")
+        val bundle = Bundle().apply {
+            putSerializable("Book", book)
+        }
+        val playerFragment = PlayerFragment.newInstance(bundle)
+        supportFragmentManager.beginTransaction()
+            .add(R.id.flContainer, playerFragment, "PlayerFragment")
+            .addToBackStack(null)
+            .commit()
+    }
 }

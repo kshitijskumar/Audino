@@ -4,12 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.example.audino.views.player.PlayerItemVm" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/ivBack"
@@ -72,7 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:src="@color/yellow"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                loadFromUrl="@{vm.book.thumbnailUrl}"/>
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -89,7 +95,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.2"
             android:fontFamily="@font/gilroy_extrabold"
-            android:textColor="@color/dark_blue"/>
+            android:textColor="@color/dark_blue"
+            android:text="@{vm.book.bookName}"/>
 
         <TextView
             android:id="@+id/tvAuthor"
@@ -103,7 +110,8 @@
             android:layout_marginTop="18dp"
             android:fontFamily="@font/gilroy_semibold"
             android:textColor="@color/dark_blue"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:text="@{vm.book.authorName}"/>
 
         <SeekBar
             android:id="@+id/seekbar"
@@ -202,6 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="1x"
+                android:text="1x"
                 android:layout_marginEnd="4dp"
                 android:fontFamily="@font/gilroy_extrabold"
                 android:textColor="@color/dark_blue"/>

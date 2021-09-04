@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.example.audino.R
 import com.example.audino.databinding.FragmentBookDetailsBottomSheetBinding
 import com.example.audino.model.response.BookResponse
+import com.example.audino.views.callbacks.SwitchFragmentCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -34,12 +35,24 @@ class BookDetailsBottomSheet : BottomSheetDialogFragment() {
     }
 
     fun setBookDetails(book: BookResponse) {
-        bookVm = BookDetailsVm(book)
+        bookVm = BookDetailsVm(book).apply {
+            setOnPlayClickListener(object : OnPlayClickFromDetails {
+                override fun onPlayClick(book: BookResponse) {
+                    dismiss()
+                    Log.d("ClickEvent", "in bottom sheet")
+                    (requireContext() as SwitchFragmentCallback).openPlayerFragment(book)
+                }
+            })
+        }
     }
 
     companion object {
         const val TAG = "BookDetailsBottomSheet"
         fun newInstance() = BookDetailsBottomSheet()
+    }
+
+    interface OnPlayClickFromDetails {
+        fun onPlayClick(book: BookResponse)
     }
 
 }

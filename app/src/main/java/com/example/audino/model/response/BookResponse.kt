@@ -1,5 +1,7 @@
 package com.example.audino.model.response
 
+import java.io.Serializable
+
 data class BookResponse(
     val bookId: String?,
     val bookName: String? = null,
@@ -8,4 +10,4 @@ data class BookResponse(
     val audioUrl: String? = null,
     val description: String? = null,
     val summary: String? = null
-)
+) : Serializable
