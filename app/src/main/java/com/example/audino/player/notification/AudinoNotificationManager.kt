@@ -51,6 +51,7 @@ class AudinoNotificationManager(
             .build().apply {
                 setMediaSessionToken(sessionToken)
                 setSmallIcon(R.drawable.ic_play)
+                setUseStopAction(true)
             }
 
     }

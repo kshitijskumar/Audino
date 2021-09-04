@@ -3,6 +3,7 @@ package com.example.audino.views.activities
 import android.media.AudioManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import com.example.audino.R
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
 //            Log.d("GenresList", "result: $it")
 //        }
         mainViewModel.currBook.observe(this) {
-            Log.d("PlayBook", "currBook: $it")
+            Log.d("PlayBook", "currBook: ${it?.getText(METADATA_KEY_MEDIA_ID)}")
         }
         mainViewModel.playbackState.observe(this) {
             Log.d("PlayBook", "playback state: $it")

@@ -27,12 +27,6 @@ class AudinoSessionCallback(
         player.setMediaItem(MediaItem.fromUri(book.audioUrl ?: ""))
         player.prepare()
         player.play()
-        player.addListener(object : Player.Listener {
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                super.onPlaybackStateChanged(playbackState)
-                Log.d("PlayBook", "change in state: $playbackState")
-            }
-        })
         notificationManager.showNotification(player)
     }
 

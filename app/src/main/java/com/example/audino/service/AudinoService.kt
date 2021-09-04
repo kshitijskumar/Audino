@@ -1,6 +1,8 @@
 package com.example.audino.service
 
 import android.app.Notification
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -13,6 +15,8 @@ import com.example.audino.player.callbacks.AudinoSessionCallback
 import com.example.audino.player.notification.AudinoNotificationManager
 import com.example.audino.utils.Constants.ROOT_ID
 import com.example.audino.utils.Injector
+import com.example.audino.views.activities.MainActivity
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +47,14 @@ class AudinoService : MediaBrowserServiceCompat() {
         Log.d("ServiceLife", "onCreate")
         exoplayer = SimpleExoPlayer.Builder(this)
             .build()
+            .apply {
+                addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    super.onPlaybackStateChanged(playbackState)
+                    Log.d("PlayBook", "change in state: $playbackState")
+                }
+            })
+            }
 
         //setup media session
         mediaSession = MediaSessionCompat(this, "AUDINO_SERVICE_TAG").apply {
@@ -51,6 +63,12 @@ class AudinoService : MediaBrowserServiceCompat() {
                 .setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PAUSE)
             setPlaybackState(stateBuilder.build())
             setSessionToken(sessionToken)
+            setSessionActivity(
+                PendingIntent.getActivity(
+                    this@AudinoService, 2, Intent(this@AudinoService, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    },
+                    FLAG_UPDATE_CURRENT))
         }
 
         //setup notification
@@ -114,7 +132,7 @@ class AudinoService : MediaBrowserServiceCompat() {
             ongoing: Boolean
         ) {
             super.onNotificationPosted(notificationId, notification, ongoing)
-            Log.d("PlayBook", "notification posted")
+            Log.d("PlayBook", "notification posted with state: ${exoplayer.isPlaying}")
             if (ongoing && !isForeground) {
                 ContextCompat.startForegroundService(
                     applicationContext,
