@@ -7,6 +7,9 @@
         <variable
             name="vm"
             type="com.example.audino.views.player.PlayerItemVm" />
+        <variable
+            name="mainVm"
+            type="com.example.audino.viewmodels.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -160,7 +163,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/seekbar"
             android:layout_marginTop="24dp"
-            android:src="@drawable/ic_play"
+            android:src="@{!mainVm.isPlaying() ? @drawable/ic_play : @drawable/ic_pause, default=@drawable/ic_play}"
             app:tint="@color/white"
             android:backgroundTint="@color/dark_blue"
             android:onClick="@{() -> vm.playerClickCallback.playBook()}"/>

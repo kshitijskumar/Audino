@@ -1,6 +1,7 @@
 package com.example.audino.views.player
 
 import android.os.Bundle
+import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +36,17 @@ class PlayerFragment : Fragment() {
     ): View? {
         binding = FragmentPlayerBinding.inflate(inflater)
         binding.vm = playerItemVm
+        binding.mainVm = mainViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         playerItemVm.initBook(arguments?.getSerializable("Book") as BookResponse)
+        if (mainViewModel.currBook.value?.getText(METADATA_KEY_MEDIA_ID) != playerItemVm.book.get()?.bookId) {
+            mainViewModel.stopCurrentlyPlayingBook()
+        }
     }
 
     companion object {

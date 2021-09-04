@@ -1,15 +1,23 @@
 package com.example.audino.views.activities
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.media.AudioManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.audino.R
 import com.example.audino.databinding.ActivityMainBinding
 import com.example.audino.model.response.BookResponse
 import com.example.audino.service.AudinoServiceConnection
+import com.example.audino.utils.Constants
+import com.example.audino.utils.Constants.ACTION_PLAYER_PLAYING_STATE_CHANGED
+import com.example.audino.utils.Constants.ACTION_SEND_PENDING_BROADCAST
 import com.example.audino.viewmodels.MainViewModel
 import com.example.audino.views.callbacks.SwitchFragmentCallback
 import com.example.audino.views.home.HomeFragment
@@ -29,6 +37,22 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
 
     private val serviceConnection by lazy {
         AudinoServiceConnection(this)
+    }
+
+    private val localBroadcastManager by lazy {
+        LocalBroadcastManager.getInstance(applicationContext)
+    }
+
+    private val localBroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d("PlayPauseId", "onReceive")
+            when(intent?.action) {
+                ACTION_PLAYER_PLAYING_STATE_CHANGED -> {
+                    Log.d("PlayPauseId", "received: ${intent.getBooleanExtra("isPlaying", false)}")
+                    mainViewModel.togglePlayState(intent.getBooleanExtra("isPlaying", false))
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,5 +95,22 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
             .add(R.id.flContainer, playerFragment, "PlayerFragment")
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        localBroadcastManager
+            .registerReceiver(localBroadcastReceiver,
+                IntentFilter(ACTION_PLAYER_PLAYING_STATE_CHANGED))
+        sendPendingBroadcasts()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        localBroadcastManager.unregisterReceiver(localBroadcastReceiver)
+    }
+
+    private fun sendPendingBroadcasts() {
+        localBroadcastManager.sendBroadcast(Intent(ACTION_SEND_PENDING_BROADCAST))
     }
 }

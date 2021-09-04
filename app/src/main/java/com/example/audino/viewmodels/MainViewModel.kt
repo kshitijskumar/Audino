@@ -1,7 +1,9 @@
 package com.example.audino.viewmodels
 
+import android.media.MediaMetadata.METADATA_KEY_MEDIA_ID
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaMetadataCompat
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.audino.model.response.BookResponse
@@ -18,6 +20,9 @@ class MainViewModel(
     val isConnected = serviceConnection.isConnected
     val currBook = serviceConnection.currBook
     val playbackState = serviceConnection.playbackState
+
+    private val _isPlaying = MutableLiveData(false)
+    val isPlaying: LiveData<Boolean> get() = _isPlaying
 
     private val _genresList = MutableLiveData<List<GenreResponse>>()
     val genresList : LiveData<List<GenreResponse>> get() = _genresList
@@ -39,10 +44,33 @@ class MainViewModel(
     }
 
     fun playBookFromStart(book: BookResponse) {
-        val bundle = Bundle().apply {
-            putSerializable("Book", book)
+
+        Log.d("PlayPauseId", "book id: ${book.bookId}")
+        Log.d("PlayPauseId", "metadata id: ${currBook.value?.getText(METADATA_KEY_MEDIA_ID)}")
+        if (book.bookId != currBook.value?.getText(METADATA_KEY_MEDIA_ID)) {
+            val bundle = Bundle().apply {
+                putSerializable("Book", book)
+            }
+            serviceConnection.transportControls.playFromMediaId(book.bookId, bundle)
+        } else {
+            Log.d("PlayPauseId", "playing is: ${isPlaying.value}")
+            if (isPlaying.value == true) {
+                serviceConnection.transportControls.pause()
+                togglePlayState(false)
+            } else {
+                serviceConnection.transportControls.play()
+                togglePlayState(true)
+            }
         }
-        serviceConnection.transportControls.playFromMediaId(book.bookId, bundle)
+    }
+
+    fun stopCurrentlyPlayingBook() {
+        serviceConnection.transportControls.stop()
+        togglePlayState(false)
+    }
+
+    fun togglePlayState(isPlaying: Boolean) {
+        _isPlaying.value = isPlaying
     }
 
     companion object {

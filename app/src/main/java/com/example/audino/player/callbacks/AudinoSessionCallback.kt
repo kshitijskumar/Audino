@@ -23,7 +23,7 @@ class AudinoSessionCallback(
         super.onPlayFromMediaId(mediaId, extras)
         val book = extras?.getSerializable("Book") as BookResponse
         Log.d("PlayBook", "Book to play: $book and id: $mediaId")
-        activeSessionAndChangeMetaData(book)
+        activeSessionAndChangeMetaData(book, PlaybackStateCompat.STATE_PLAYING, 0L, 1f, true)
         player.setMediaItem(MediaItem.fromUri(book.audioUrl ?: ""))
         player.prepare()
         player.play()
@@ -32,20 +32,29 @@ class AudinoSessionCallback(
 
     override fun onPlay() {
         super.onPlay()
+        activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_PLAYING, player.currentPosition, 1f, true)
+        player.play()
+        notificationManager.showNotification(player)
     }
 
     override fun onPause() {
         super.onPause()
+        activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_PAUSED, player.currentPosition, 1f, false)
+        player.pause()
+        notificationManager.hideNotification()
     }
 
     override fun onStop() {
         super.onStop()
+        activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_STOPPED, player.currentPosition, 1f, false)
+        player.stop()
+        notificationManager.hideNotification()
     }
 
-    private fun activeSessionAndChangeMetaData(book: BookResponse) {
-        mediaSession.isActive = true
-        mediaSession.setMetadata(book.toMediaMetadataCompat())
-        mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_PLAYING, 0L, 1f).build())
+    private fun activeSessionAndChangeMetaData(book: BookResponse?, state: Int, position: Long, speed: Float, isActive: Boolean) {
+        mediaSession.isActive = isActive
+        if (book != null) { mediaSession.setMetadata(book.toMediaMetadataCompat()) }
+        mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(state, position, speed).build())
     }
 
 }

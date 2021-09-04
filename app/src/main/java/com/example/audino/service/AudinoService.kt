@@ -3,16 +3,22 @@ package com.example.audino.service
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media.MediaBrowserServiceCompat
 import com.example.audino.player.callbacks.AudinoSessionCallback
 import com.example.audino.player.notification.AudinoNotificationManager
+import com.example.audino.utils.Constants.ACTION_PLAYER_PLAYING_STATE_CHANGED
+import com.example.audino.utils.Constants.ACTION_SEND_PENDING_BROADCAST
 import com.example.audino.utils.Constants.ROOT_ID
 import com.example.audino.utils.Injector
 import com.example.audino.views.activities.MainActivity
@@ -32,6 +38,23 @@ class AudinoService : MediaBrowserServiceCompat() {
 
     private var isForeground = false
 
+    private val localBroadcastManager by lazy {
+        LocalBroadcastManager.getInstance(applicationContext)
+    }
+
+    private val localBR = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when(intent?.action) {
+                ACTION_SEND_PENDING_BROADCAST -> {
+                    val reqIntent = Intent(ACTION_PLAYER_PLAYING_STATE_CHANGED).apply {
+                        putExtra("isPlaying", exoplayer.isPlaying)
+                    }
+                    localBroadcastManager.sendBroadcast(reqIntent)
+                }
+            }
+        }
+    }
+
     private val serviceJob = Job()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
@@ -45,6 +68,7 @@ class AudinoService : MediaBrowserServiceCompat() {
         super.onCreate()
 
         Log.d("ServiceLife", "onCreate")
+        localBroadcastManager.registerReceiver(localBR, IntentFilter(ACTION_SEND_PENDING_BROADCAST))
         exoplayer = SimpleExoPlayer.Builder(this)
             .build()
             .apply {
@@ -133,6 +157,7 @@ class AudinoService : MediaBrowserServiceCompat() {
         ) {
             super.onNotificationPosted(notificationId, notification, ongoing)
             Log.d("PlayBook", "notification posted with state: ${exoplayer.isPlaying}")
+            updatePlayerPlayingState()
             if (ongoing && !isForeground) {
                 ContextCompat.startForegroundService(
                     applicationContext,
@@ -142,5 +167,18 @@ class AudinoService : MediaBrowserServiceCompat() {
                 isForeground = true
             }
         }
+
+        private fun updatePlayerPlayingState() {
+            val intent = Intent(ACTION_PLAYER_PLAYING_STATE_CHANGED).apply {
+                putExtra("isPlaying", exoplayer.isPlaying)
+            }
+            localBroadcastManager.sendBroadcast(intent)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("ServiceLifeCycle", "onDestroy")
+        localBroadcastManager.unregisterReceiver(localBR)
     }
 }
