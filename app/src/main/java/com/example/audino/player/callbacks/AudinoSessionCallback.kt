@@ -63,7 +63,7 @@ class AudinoSessionCallback(
 
     fun stopPlayback() {
         activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_STOPPED, player.currentPosition, 1f, false)
-        player.stop()
+        player.pause()
         notificationManager.hideNotification()
     }
 

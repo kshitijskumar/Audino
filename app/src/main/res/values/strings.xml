@@ -3,5 +3,8 @@
     <string name="share">Share</string>
     <string name="read">read</string>
     <string name="sleep_timer">Sleep Timer</string>
+    <string name="sleep_timer_15">15 min</string>
+    <string name="sleep_timer_30">30 min</string>
+    <string name="sleep_timer_45">45 min</string>
     <string name="speed">Speed</string>
 </resources>

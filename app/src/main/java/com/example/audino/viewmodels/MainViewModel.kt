@@ -11,6 +11,10 @@ import com.example.audino.model.response.GenreResponse
 import com.example.audino.player.extensionfunctions.toBookResponse
 import com.example.audino.player.extensionfunctions.toGenreResponse
 import com.example.audino.service.AudinoServiceConnection
+import com.example.audino.utils.Constants.MIN_15
+import com.example.audino.utils.Constants.MIN_30
+import com.example.audino.utils.Constants.MIN_45
+import com.example.audino.utils.Constants.NO_TIME
 import com.example.audino.utils.Constants.ROOT_ID
 
 class MainViewModel(
@@ -26,6 +30,9 @@ class MainViewModel(
 
     private val _genresList = MutableLiveData<List<GenreResponse>>()
     val genresList : LiveData<List<GenreResponse>> get() = _genresList
+
+    private val _sleepTimerTime = MutableLiveData(SleepTimerLevel.NoTimer)
+    val sleepTimerTime: LiveData<SleepTimerLevel> get() = _sleepTimerTime
 
     init {
         serviceConnection.subscribe(ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {
@@ -66,7 +73,18 @@ class MainViewModel(
 
     fun setSleepTimer() {
         Log.d("SleepTimer", "in main vm")
-        serviceConnection.setSleepTimer(8000L)
+        _sleepTimerTime.value = when(_sleepTimerTime.value) {
+            SleepTimerLevel.NoTimer -> SleepTimerLevel.Timer15
+            SleepTimerLevel.Timer15 -> SleepTimerLevel.Timer30
+            SleepTimerLevel.Timer30 -> SleepTimerLevel.Timer45
+            SleepTimerLevel.Timer45 -> SleepTimerLevel.NoTimer
+            else -> SleepTimerLevel.NoTimer
+        }
+        serviceConnection.setSleepTimer(_sleepTimerTime.value?.time ?: 0L)
+    }
+
+    fun setPendingSleepTimer(level: SleepTimerLevel) {
+        _sleepTimerTime.value = level
     }
 
     fun stopCurrentlyPlayingBook() {
@@ -89,5 +107,13 @@ class MainViewModel(
             return ViewModelProvider(storeOwner, MainViewModelFactory(serviceConnection))[MainViewModel::class.java]
         }
     }
+
+}
+
+enum class SleepTimerLevel(val time: Long) {
+    NoTimer(NO_TIME),
+    Timer15(MIN_15),
+    Timer30(MIN_30),
+    Timer45(MIN_45)
 
 }

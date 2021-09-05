@@ -193,8 +193,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sleep_timer"
                 android:layout_marginStart="4dp"
+                sleepTimerDuration="@{mainVm.sleepTimerTime}"
+                tools:text="@string/sleep_timer"
                 android:fontFamily="@font/gilroy_semibold"
                 android:textColor="@color/dark_blue"/>
         </LinearLayout>

@@ -23,6 +23,7 @@ import com.example.audino.utils.Constants.ACTION_PLAYER_PLAYING_STATE_CHANGED
 import com.example.audino.utils.Constants.ACTION_SCHEDULE_SLEEP_TIMER
 import com.example.audino.utils.Constants.ACTION_SEND_PENDING_BROADCAST
 import com.example.audino.utils.Constants.ROOT_ID
+import com.example.audino.utils.Constants.minToMillis
 import com.example.audino.utils.Injector
 import com.example.audino.views.activities.MainActivity
 import com.google.android.exoplayer2.Player
@@ -217,7 +218,11 @@ class AudinoService : MediaBrowserServiceCompat() {
     private fun scheduleSleepTimer(forHowLong: Long) {
         //cancel any existing timer
         sleepTimer?.cancel()
-        if (forHowLong == 0L) return
+        sleepTimer = null
+        if (forHowLong == 0L) {
+            Toast.makeText(this, "Sleep timer removed", Toast.LENGTH_SHORT).show()
+            return
+        }
         sleepTimer = object : CountDownTimer(forHowLong, 1000L) {
             override fun onTick(millisUntilFinished: Long) {
                 //nothing required here
@@ -228,6 +233,6 @@ class AudinoService : MediaBrowserServiceCompat() {
                 sleepTimer = null
             }
         }.start()
-        Toast.makeText(this, "scheduled for ${forHowLong/1000} sec", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Scheduled for ${forHowLong/ minToMillis} min", Toast.LENGTH_SHORT).show()
     }
 }
