@@ -211,13 +211,14 @@
             android:gravity="center"
             android:layout_marginBottom="18dp"
             android:layout_marginStart="18dp"
+            android:onClick="@{() -> mainVm.setPlaybackSpeed()}"
             android:background="@drawable/bg_grey_rounded_corner">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="1x"
-                android:text="1x"
+                playbackSpeedText="@{mainVm.playbackSpeedLevel}"
                 android:layout_marginEnd="4dp"
                 android:fontFamily="@font/gilroy_extrabold"
                 android:textColor="@color/dark_blue"/>

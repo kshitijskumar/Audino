@@ -55,6 +55,11 @@ class AudinoSessionCallback(
         notificationManager.hideNotification()
     }
 
+    override fun onSetPlaybackSpeed(speed: Float) {
+        super.onSetPlaybackSpeed(speed)
+        player.setPlaybackSpeed(speed)
+    }
+
     private fun activeSessionAndChangeMetaData(book: BookResponse?, state: Int, position: Long, speed: Float, isActive: Boolean) {
         mediaSession.isActive = isActive
         if (book != null) { mediaSession.setMetadata(book.toMediaMetadataCompat()) }

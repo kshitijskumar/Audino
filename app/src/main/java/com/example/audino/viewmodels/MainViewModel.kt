@@ -34,6 +34,9 @@ class MainViewModel(
     private val _sleepTimerTime = MutableLiveData(SleepTimerLevel.NoTimer)
     val sleepTimerTime: LiveData<SleepTimerLevel> get() = _sleepTimerTime
 
+    private val _playbackSpeed = MutableLiveData(PlaybackSpeedLevel.Speed1)
+    val playbackSpeedLevel: LiveData<PlaybackSpeedLevel> get() = _playbackSpeed
+
     init {
         serviceConnection.subscribe(ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {
             override fun onChildrenLoaded(
@@ -72,7 +75,6 @@ class MainViewModel(
     }
 
     fun setSleepTimer() {
-        Log.d("SleepTimer", "in main vm")
         _sleepTimerTime.value = when(_sleepTimerTime.value) {
             SleepTimerLevel.NoTimer -> SleepTimerLevel.Timer15
             SleepTimerLevel.Timer15 -> SleepTimerLevel.Timer30
@@ -81,6 +83,17 @@ class MainViewModel(
             else -> SleepTimerLevel.NoTimer
         }
         serviceConnection.setSleepTimer(_sleepTimerTime.value?.time ?: 0L)
+    }
+
+    fun setPlaybackSpeed() {
+        _playbackSpeed.value = when(_playbackSpeed.value) {
+            PlaybackSpeedLevel.Speed05 -> PlaybackSpeedLevel.Speed1
+            PlaybackSpeedLevel.Speed1 -> PlaybackSpeedLevel.Speed15
+            PlaybackSpeedLevel.Speed15 -> PlaybackSpeedLevel.Speed2
+            PlaybackSpeedLevel.Speed2 -> PlaybackSpeedLevel.Speed05
+            else -> PlaybackSpeedLevel.Speed1
+        }
+        serviceConnection.transportControls.setPlaybackSpeed(_playbackSpeed.value?.speed ?: 1f)
     }
 
     fun setPendingSleepTimer(level: SleepTimerLevel) {
@@ -115,5 +128,11 @@ enum class SleepTimerLevel(val time: Long) {
     Timer15(MIN_15),
     Timer30(MIN_30),
     Timer45(MIN_45)
+}
 
+enum class PlaybackSpeedLevel(val speed: Float) {
+    Speed05(0.5f),
+    Speed1(1f),
+    Speed15(1.5f),
+    Speed2(2f)
 }
