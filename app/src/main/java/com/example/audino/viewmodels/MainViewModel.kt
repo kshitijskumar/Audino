@@ -64,6 +64,11 @@ class MainViewModel(
         }
     }
 
+    fun setSleepTimer() {
+        Log.d("SleepTimer", "in main vm")
+        serviceConnection.setSleepTimer(8000L)
+    }
+
     fun stopCurrentlyPlayingBook() {
         serviceConnection.transportControls.stop()
         togglePlayState(false)

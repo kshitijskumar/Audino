@@ -1,5 +1,6 @@
 package com.example.audino.player.callbacks
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -33,6 +34,9 @@ class AudinoSessionCallback(
     override fun onPlay() {
         super.onPlay()
         activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_PLAYING, player.currentPosition, 1f, true)
+        if (player.playbackState == SimpleExoPlayer.STATE_ENDED) {
+            player.seekTo(0,0L)
+        }
         player.play()
         notificationManager.showNotification(player)
     }
@@ -55,6 +59,12 @@ class AudinoSessionCallback(
         mediaSession.isActive = isActive
         if (book != null) { mediaSession.setMetadata(book.toMediaMetadataCompat()) }
         mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(state, position, speed).build())
+    }
+
+    fun stopPlayback() {
+        activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_STOPPED, player.currentPosition, 1f, false)
+        player.stop()
+        notificationManager.hideNotification()
     }
 
 }

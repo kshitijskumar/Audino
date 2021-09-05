@@ -8,21 +8,25 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media.MediaBrowserServiceCompat
 import com.example.audino.player.callbacks.AudinoSessionCallback
 import com.example.audino.player.notification.AudinoNotificationManager
 import com.example.audino.utils.Constants.ACTION_PLAYER_PLAYING_STATE_CHANGED
+import com.example.audino.utils.Constants.ACTION_SCHEDULE_SLEEP_TIMER
 import com.example.audino.utils.Constants.ACTION_SEND_PENDING_BROADCAST
 import com.example.audino.utils.Constants.ROOT_ID
 import com.example.audino.utils.Injector
 import com.example.audino.views.activities.MainActivity
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SeekParameters
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +46,10 @@ class AudinoService : MediaBrowserServiceCompat() {
         LocalBroadcastManager.getInstance(applicationContext)
     }
 
+    private lateinit var audinoSessionCallback : AudinoSessionCallback
+
+    private var sleepTimer: CountDownTimer? = null
+
     private val localBR = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when(intent?.action) {
@@ -50,6 +58,16 @@ class AudinoService : MediaBrowserServiceCompat() {
                         putExtra("isPlaying", exoplayer.isPlaying)
                     }
                     localBroadcastManager.sendBroadcast(reqIntent)
+                }
+            }
+        }
+    }
+
+    private val timerBR = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when(intent?.action) {
+                ACTION_SCHEDULE_SLEEP_TIMER -> {
+                    scheduleSleepTimer(intent.getLongExtra("sleepTimer", 0L))
                 }
             }
         }
@@ -69,15 +87,23 @@ class AudinoService : MediaBrowserServiceCompat() {
 
         Log.d("ServiceLife", "onCreate")
         localBroadcastManager.registerReceiver(localBR, IntentFilter(ACTION_SEND_PENDING_BROADCAST))
+        localBroadcastManager.registerReceiver(timerBR, IntentFilter(ACTION_SCHEDULE_SLEEP_TIMER))
+
         exoplayer = SimpleExoPlayer.Builder(this)
             .build()
             .apply {
                 addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(playbackState: Int) {
-                    super.onPlaybackStateChanged(playbackState)
-                    Log.d("PlayBook", "change in state: $playbackState")
-                }
-            })
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        super.onPlaybackStateChanged(playbackState)
+                        Log.d("PlayBook", "change in state: $playbackState")
+
+                    }
+                    override fun onIsPlayingChanged(isPlaying: Boolean) {
+                        super.onIsPlayingChanged(isPlaying)
+                        Log.d("PlayBook", "isPlaying: $isPlaying")
+                    }
+                })
+                setSeekParameters(SeekParameters.EXACT)
             }
 
         //setup media session
@@ -102,7 +128,9 @@ class AudinoService : MediaBrowserServiceCompat() {
             PlayerNotificationListener()
         )
 
-        mediaSession.setCallback(AudinoSessionCallback(exoplayer, mediaSession, notificationManager))
+        audinoSessionCallback = AudinoSessionCallback(exoplayer, mediaSession, notificationManager)
+
+        mediaSession.setCallback(audinoSessionCallback)
 
         serviceScope.launch {
             Log.d("GenresList", "launch and fetch")
@@ -146,6 +174,7 @@ class AudinoService : MediaBrowserServiceCompat() {
         override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
             super.onNotificationCancelled(notificationId, dismissedByUser)
             Log.d("ServiceLifeCycle", "noti cancelled")
+            updatePlayerPlayingState()
             stopForeground(true)
             isForeground = false
             stopSelf()
@@ -179,6 +208,26 @@ class AudinoService : MediaBrowserServiceCompat() {
 
     override fun onDestroy() {
         localBroadcastManager.unregisterReceiver(localBR)
+        localBroadcastManager.unregisterReceiver(timerBR)
+        sleepTimer?.cancel()
+        sleepTimer = null
         super.onDestroy()
+    }
+
+    private fun scheduleSleepTimer(forHowLong: Long) {
+        //cancel any existing timer
+        sleepTimer?.cancel()
+        if (forHowLong == 0L) return
+        sleepTimer = object : CountDownTimer(forHowLong, 1000L) {
+            override fun onTick(millisUntilFinished: Long) {
+                //nothing required here
+            }
+
+            override fun onFinish() {
+                audinoSessionCallback.stopPlayback()
+                sleepTimer = null
+            }
+        }.start()
+        Toast.makeText(this, "scheduled for ${forHowLong/1000} sec", Toast.LENGTH_SHORT).show()
     }
 }

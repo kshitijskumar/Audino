@@ -10,5 +10,4 @@ class PlayerItemVm(val playerClickCallback: PlayerFragment.PlayerFragmentClickCa
     fun initBook(bookResponse: BookResponse) {
         book.set(bookResponse)
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.audino.service
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -9,6 +10,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.audino.utils.Constants.ACTION_SCHEDULE_SLEEP_TIMER
 
 class AudinoServiceConnection(
     private val context: Context
@@ -57,6 +60,14 @@ class AudinoServiceConnection(
 
     fun playFromMediaId(mediaId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
         subscribe(mediaId, callback)
+    }
+
+    fun setSleepTimer(forHowLong: Long) {
+        val intent = Intent(ACTION_SCHEDULE_SLEEP_TIMER).apply {
+            putExtra("sleepTimer", forHowLong)
+        }
+        LocalBroadcastManager.getInstance(context.applicationContext)
+            .sendBroadcast(intent)
     }
 
 
