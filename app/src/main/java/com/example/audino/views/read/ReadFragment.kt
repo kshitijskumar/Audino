@@ -1,7 +1,6 @@
 package com.example.audino.views.read
 
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.audino.databinding.FragmentReadBinding
 import com.example.audino.utils.Injector
 import com.example.audino.viewmodels.MainViewModel
-import com.example.audino.views.read.ReadSectionEditBottomSheetFragment.*
+import com.example.audino.views.read.ReadSectionEditBottomSheetFragment.ReadModeChangeListener
 
 class ReadFragment : Fragment() {
 

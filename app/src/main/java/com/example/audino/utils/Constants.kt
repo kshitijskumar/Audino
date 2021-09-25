@@ -22,5 +22,15 @@ object Constants {
     const val MIN_30 = 30 * minToMillis
     const val MIN_45 = 45 * minToMillis
 
+    const val SHARED_PREFS_NAME = "Audino_shared_pref"
+    const val PREFERRED_TEXT_SIZE = "pref_text_size"
+    const val PREFERRED_BG_COLOR = "pref_bg_color"
+
+    const val TEXT_SIZE_0 = 0 //small
+    const val TEXT_SIZE_1 = 1 //medium
+    const val TEXT_SIZE_2 = 2 //large
+
+    const val BG_LIGHT = 0 // light
+    const val BG_DARK = 1 // dark
 
 }
