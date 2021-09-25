@@ -18,4 +18,10 @@
     <color name="black_2">#070A0B</color>
     <color name="light_grey">#EFEFFA</color>
 
+    <color name="text_size_selected">#FF3737</color>
+    <color name="text_size_unselected">#FFBB5A</color>
+
+    <color name="gray">#303537</color>
+
+
 </resources>

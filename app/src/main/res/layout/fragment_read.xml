@@ -7,6 +7,9 @@
         <variable
             name="mainVm"
             type="com.example.audino.viewmodels.MainViewModel" />
+        <variable
+            name="vm"
+            type="com.example.audino.views.read.ReadSectionVm" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +19,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            preferredBackgroundColor="@{vm.bgOption}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -33,6 +37,7 @@
                     android:fontFamily="@font/gilroy_extrabold"
                     android:textSize="28sp"
                     android:textColor="@color/black"
+                    preferredTextColor="@{vm.bgOption}"
                     android:layout_marginTop="18dp"
                     android:layout_marginHorizontal="20dp"
                     android:gravity="center"
@@ -51,6 +56,7 @@
                     android:textSize="24sp"
                     android:textColor="@color/black_1"
                     android:layout_marginTop="14dp"
+                    preferredTextColor="@{vm.bgOption}"
                     android:text="@{mainVm.currBookSummary.authorName}"/>
 
                 <TextView
@@ -62,9 +68,11 @@
                     app:layout_constraintEnd_toEndOf="@id/tvBookName"
                     android:fontFamily="@font/gilroy_regular"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    tools:textSize="@dimen/text_small"
+                    preferredTextSize="@{vm.textSizeOption}"
                     android:layout_marginTop="20dp"
                     android:lineSpacingMultiplier="1.2"
+                    preferredTextColor="@{vm.bgOption}"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
                     android:text="@{mainVm.currBookSummary.summary}"/>
 
@@ -73,6 +81,7 @@
         </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnEditSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

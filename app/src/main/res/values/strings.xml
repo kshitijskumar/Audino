@@ -13,4 +13,12 @@
     <string name="speed_1x">1x</string>
     <string name="speed_15x">1.5x</string>
     <string name="speed_2x">2x</string>
+    <string name="change_the_read_mode">Change the Read mode</string>
+    <string name="font_size">Font size</string>
+    <string name="text_small_s">S</string>
+    <string name="text_small_m">M</string>
+    <string name="text_small_l">L</string>
+    <string name="background_mode">Background mode</string>
+    <string name="bg_light">Light</string>
+    <string name="bg_dark">Dark</string>
 </resources>
