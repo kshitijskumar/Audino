@@ -2,6 +2,7 @@ package com.example.audino.model.repositories
 
 import com.example.audino.model.response.AllBooksResponse
 import com.example.audino.model.response.BookResponse
+import com.example.audino.model.response.BookSummaryResponse
 import com.example.audino.model.response.GenreResponse
 import kotlinx.coroutines.delay
 
@@ -148,6 +149,16 @@ class MainRepositoryImpl : MainRepository {
                     )
                 )
             )
+        )
+    }
+
+    override suspend fun getBookSummaryContent(bookId: String): BookSummaryResponse {
+        //returning dummy for now
+        return BookSummaryResponse(
+            "gen3_book5",
+            "Atomic Habits",
+            "James Clear $bookId",
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
         )
     }
 }

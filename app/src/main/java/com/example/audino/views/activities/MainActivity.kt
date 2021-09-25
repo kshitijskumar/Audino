@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.audino.R
 import com.example.audino.databinding.ActivityMainBinding
@@ -22,6 +23,8 @@ import com.example.audino.viewmodels.MainViewModel
 import com.example.audino.views.callbacks.SwitchFragmentCallback
 import com.example.audino.views.home.HomeFragment
 import com.example.audino.views.player.PlayerFragment
+import com.example.audino.views.read.ReadFragment
+import com.example.audino.views.read.ReadFragment.Companion.BOOK_ID
 
 class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
 
@@ -95,6 +98,18 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
             .add(R.id.flContainer, playerFragment, "PlayerFragment")
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun openReadFragment(bookId: String) {
+        val readFragment = ReadFragment.newInstance(getReadFragmentArgs(bookId))
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.flContainer, readFragment, "ReadFragment")
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun getReadFragmentArgs(bookId: String) : Bundle {
+        return bundleOf(BOOK_ID to bookId)
     }
 
     override fun onStart() {

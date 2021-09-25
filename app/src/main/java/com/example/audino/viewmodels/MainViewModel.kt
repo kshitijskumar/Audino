@@ -6,7 +6,9 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.util.Log
 import androidx.lifecycle.*
+import com.example.audino.model.repositories.MainRepository
 import com.example.audino.model.response.BookResponse
+import com.example.audino.model.response.BookSummaryResponse
 import com.example.audino.model.response.GenreResponse
 import com.example.audino.player.extensionfunctions.toBookResponse
 import com.example.audino.player.extensionfunctions.toGenreResponse
@@ -16,9 +18,12 @@ import com.example.audino.utils.Constants.MIN_30
 import com.example.audino.utils.Constants.MIN_45
 import com.example.audino.utils.Constants.NO_TIME
 import com.example.audino.utils.Constants.ROOT_ID
+import com.example.audino.utils.Injector
+import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val serviceConnection: AudinoServiceConnection
+    private val serviceConnection: AudinoServiceConnection,
+    private val repository: MainRepository
 ) : ViewModel() {
 
     val isConnected = serviceConnection.isConnected
@@ -36,6 +41,9 @@ class MainViewModel(
 
     private val _playbackSpeed = MutableLiveData(PlaybackSpeedLevel.Speed1)
     val playbackSpeedLevel: LiveData<PlaybackSpeedLevel> get() = _playbackSpeed
+
+    private val _currBookSummary = MutableLiveData<BookSummaryResponse>()
+    val currBookSummary: LiveData<BookSummaryResponse> get() = _currBookSummary
 
     init {
         serviceConnection.subscribe(ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {
@@ -109,10 +117,15 @@ class MainViewModel(
         _isPlaying.value = isPlaying
     }
 
+    fun getSummaryOfCurrentBook(bookId: String) = viewModelScope.launch {
+        val bookSummary = repository.getBookSummaryContent(bookId)
+        _currBookSummary.postValue(bookSummary)
+    }
+
     companion object {
         private class MainViewModelFactory(private val serviceConnection: AudinoServiceConnection) : ViewModelProvider.NewInstanceFactory() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return MainViewModel(serviceConnection) as T
+                return MainViewModel(serviceConnection, Injector.getInjector().provideMainRepository()) as T
             }
         }
 

@@ -10,10 +10,15 @@ import com.example.audino.databinding.FragmentPlayerBinding
 import com.example.audino.model.response.BookResponse
 import com.example.audino.utils.Injector
 import com.example.audino.viewmodels.MainViewModel
+import com.example.audino.views.callbacks.SwitchFragmentCallback
 
 class PlayerFragment : Fragment() {
 
     private lateinit var binding: FragmentPlayerBinding
+
+    private val bookResponse by lazy {
+        arguments?.getSerializable("Book") as BookResponse
+    }
 
     private val mainViewModel by lazy {
         MainViewModel.getMainViewModel(requireActivity(), Injector.getInjector().provideAudinoServiceConnection(requireContext()))
@@ -25,7 +30,11 @@ class PlayerFragment : Fragment() {
         }
 
         override fun playBook() {
-            mainViewModel.playBookFromStart(arguments?.getSerializable("Book") as BookResponse)
+            mainViewModel.playBookFromStart(bookResponse)
+        }
+
+        override fun onReadClick() {
+            (context as SwitchFragmentCallback).openReadFragment(bookResponse.bookId ?: "")
         }
     })
 
@@ -61,5 +70,6 @@ class PlayerFragment : Fragment() {
     interface PlayerFragmentClickCallback {
         fun onCloseClick()
         fun playBook()
+        fun onReadClick()
     }
 }

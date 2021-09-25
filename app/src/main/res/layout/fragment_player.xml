@@ -59,7 +59,8 @@
             android:textColor="@color/dark_blue"
             android:fontFamily="@font/gilroy_semibold"
             android:background="@drawable/bg_outline_dark"
-            app:drawableStartCompat="@drawable/ic_book" />
+            app:drawableStartCompat="@drawable/ic_book"
+            android:onClick="@{() -> vm.playerClickCallback.onReadClick()}"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvBook"
