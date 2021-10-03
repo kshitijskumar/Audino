@@ -2,6 +2,7 @@ package com.example.audino.player.callbacks
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -20,11 +21,14 @@ class AudinoSessionCallback(
     private val notificationManager: AudinoNotificationManager
 ) : MediaSessionCompat.Callback() {
 
+    private var currentPositionHandler = Handler()
+
     override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
         super.onPlayFromMediaId(mediaId, extras)
         val book = extras?.getSerializable("Book") as BookResponse
         Log.d("PlayBook", "Book to play: $book and id: $mediaId")
         activeSessionAndChangeMetaData(book, PlaybackStateCompat.STATE_PLAYING, 0L, 1f, true)
+        handleCurrentPositionHandler()
         player.setMediaItem(MediaItem.fromUri(book.audioUrl ?: ""))
         player.prepare()
         player.play()
@@ -34,6 +38,7 @@ class AudinoSessionCallback(
     override fun onPlay() {
         super.onPlay()
         activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_PLAYING, player.currentPosition, 1f, true)
+        handleCurrentPositionHandler()
         if (player.playbackState == SimpleExoPlayer.STATE_ENDED) {
             player.seekTo(0,0L)
         }
@@ -44,6 +49,7 @@ class AudinoSessionCallback(
     override fun onPause() {
         super.onPause()
         activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_PAUSED, player.currentPosition, 1f, false)
+        currentPositionHandler.removeCallbacksAndMessages(null)
         player.pause()
         notificationManager.hideNotification()
     }
@@ -51,6 +57,7 @@ class AudinoSessionCallback(
     override fun onStop() {
         super.onStop()
         activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_STOPPED, player.currentPosition, 1f, false)
+        currentPositionHandler.removeCallbacksAndMessages(null)
         player.stop()
         notificationManager.hideNotification()
     }
@@ -70,6 +77,13 @@ class AudinoSessionCallback(
         activeSessionAndChangeMetaData(null, PlaybackStateCompat.STATE_STOPPED, player.currentPosition, 1f, false)
         player.pause()
         notificationManager.hideNotification()
+    }
+
+    private fun handleCurrentPositionHandler() {
+        currentPositionHandler.postDelayed({
+            mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_PLAYING, player.currentPosition, 1f).build())
+            handleCurrentPositionHandler()
+        }, 1000L)
     }
 
 }
