@@ -40,6 +40,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="16dp"
+                    android:paddingBottom="24dp"
+                    android:clipToPadding="false"
                     tools:listitem="@layout/layout_category_list"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,3 +6,7 @@ data class BookSummaryResponse(
     val authorName: String? = null,
     val summary: String? = null
 )
+
+data class SummaryOnlyResponse(
+    val summary: String? = null
+)

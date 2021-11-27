@@ -125,6 +125,10 @@ class MainViewModel(
         shouldUpdateSeekbarListener = listener
     }
 
+    fun removeShouldUpdateSeekbar() {
+        shouldUpdateSeekbarListener = null
+    }
+
     fun getSummaryOfCurrentBook(bookId: String) = viewModelScope.launch {
         val bookSummary = repository.getBookSummaryContent(bookId)
         _currBookSummary.postValue(bookSummary)

@@ -88,6 +88,11 @@ class PlayerFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mainViewModel.removeShouldUpdateSeekbar()
+    }
+
     companion object {
         fun newInstance() = PlayerFragment()
         fun newInstance(bundle: Bundle?): PlayerFragment {
