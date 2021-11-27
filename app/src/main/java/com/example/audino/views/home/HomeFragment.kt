@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.audino.databinding.FragmentHomeBinding
+import com.example.audino.model.repositories.MainRepositoryImpl
 import com.example.audino.model.response.BookResponse
 import com.example.audino.utils.Injector
 import com.example.audino.viewmodels.MainViewModel
@@ -24,6 +25,9 @@ class HomeFragment : Fragment() {
     private val mainViewModel by lazy {
         MainViewModel.getMainViewModel(requireActivity(), Injector.getInjector().provideAudinoServiceConnection(requireContext()))
     }
+
+    var bookIdFromDeeplink: String? = null
+    var isDeeplinkFlowHandled: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +71,17 @@ class HomeFragment : Fragment() {
     private fun observeValues() {
         mainViewModel.genresList.observe(viewLifecycleOwner) {
             genreListAdapter.submitList(it)
+            if (bookIdFromDeeplink != null && !isDeeplinkFlowHandled) {
+                isDeeplinkFlowHandled = true
+                if (MainRepositoryImpl.bookIdAndBookResponseMap.containsKey(bookIdFromDeeplink)) {
+                    MainRepositoryImpl.bookIdAndBookResponseMap[bookIdFromDeeplink]?.let { book ->
+                        BookDetailsBottomSheet.newInstance().apply {
+                            setBookDetails(book)
+                            show(this@HomeFragment.childFragmentManager, BookDetailsBottomSheet.TAG)
+                        }
+                    }
+                }
+            }
             Log.d("GenreList", "$it")
         }
     }

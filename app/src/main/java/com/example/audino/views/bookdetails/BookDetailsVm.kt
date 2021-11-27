@@ -16,4 +16,8 @@ class BookDetailsVm(private val book: BookResponse) {
         bookDetails.get()?.let { onPlayClickListener?.onPlayClick(it) }
     }
 
+    fun onShareClick() {
+        bookDetails.get()?.let { onPlayClickListener?.onShareBookClick(it) }
+    }
+
 }

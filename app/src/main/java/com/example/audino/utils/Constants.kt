@@ -33,4 +33,7 @@ object Constants {
     const val BG_LIGHT = 0 // light
     const val BG_DARK = 1 // dark
 
+    const val SHARE_BOOK_TEMPLATE = """Hey there, read this awesome book titled "{{BOOK_NAME}}" by "{{AUTHOR}}" on Audino!
+        https://audino.com/{{BOOK_ID}}"""
+
 }

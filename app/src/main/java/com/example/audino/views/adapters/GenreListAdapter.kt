@@ -57,7 +57,6 @@ class GenreListAdapter(private val serviceConnection: AudinoServiceConnection) :
             binding.tvGenre.text = genre.genreName
 
             binding.rvBooks.layoutManager = LinearLayoutManager(binding.root.context, RecyclerView.HORIZONTAL, false)
-//            binding.rvBooks.addItemDecoration()
             val adapter = if (booksIdAdapterMap.containsKey(genre.genreId)) {
                 booksIdAdapterMap[genre.genreId]
             } else {

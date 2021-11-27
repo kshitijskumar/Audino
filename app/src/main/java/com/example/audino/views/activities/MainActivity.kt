@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
         setupFragmentTransaction()
 
         observeValues()
+        handleDeeplinkDataIfAny()
     }
 
     private fun observeValues() {
@@ -127,5 +128,14 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
 
     private fun sendPendingBroadcasts() {
         localBroadcastManager.sendBroadcast(Intent(ACTION_SEND_PENDING_BROADCAST))
+    }
+
+    private fun handleDeeplinkDataIfAny() {
+        val data = intent?.data ?: return
+        val dataString = data.toString()
+        val bookIdStartIndex = dataString.lastIndexOf("/")
+        val bookId = dataString.substring(bookIdStartIndex+1, dataString.length)
+        homeFragment.bookIdFromDeeplink = bookId
+        Log.d("DeeplinkStuff", "data: $data")
     }
 }

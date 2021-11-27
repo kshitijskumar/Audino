@@ -17,6 +17,10 @@ class MainRepositoryImpl(
     private val api: ApiService = Injector.getInjector().provideApiService()
 ) : MainRepository {
 
+    companion object {
+        val bookIdAndBookResponseMap = mutableMapOf<String, BookResponse>()
+    }
+
 //    override suspend fun getAllBooks(): AllBooksResponse {
 //        //Todo: Dummy response for now
 //        delay(1500L)
@@ -166,6 +170,10 @@ class MainRepositoryImpl(
             try {
                 val response = api.fetchAllBooks()
                 if (response.isSuccessful && response.body() != null) {
+                    Log.d("DeeplinkStuff", "caching start")
+                    cacheAllBooksResponse(response.body()!!)
+                    Log.d("DeeplinkStuff", "$bookIdAndBookResponseMap")
+                    Log.d("DeeplinkStuff", "sending")
                     response.body()!!
                 } else {
                     AllBooksResponse()
@@ -174,6 +182,16 @@ class MainRepositoryImpl(
             } catch (e: Exception) {
                 e.printStackTrace()
                 AllBooksResponse()
+            }
+        }
+    }
+
+    private suspend fun cacheAllBooksResponse(allBooksResponse: AllBooksResponse) {
+        withContext(Dispatchers.Default) {
+            allBooksResponse.genres.forEach { genre ->
+                genre.books.forEach { book ->
+                    bookIdAndBookResponseMap[book.bookId ?: ""] = book
+                }
             }
         }
     }

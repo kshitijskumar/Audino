@@ -79,7 +79,7 @@ class PlayerFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             while (isActive) {
                 val currentPosition = mainViewModel.playbackState.value?.position ?: 0L
-                val totalDuration = 72000L
+                val totalDuration = 720000L
                 if (shouldUpdateSeekbar) {
                     binding.seekbar.progress = ((currentPosition.toFloat() / totalDuration.toFloat())*100).toInt()
                 }

@@ -87,7 +87,8 @@
             android:paddingEnd="20dp"
             android:gravity="center"
             android:textSize="14sp"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:onClick="@{() -> vm.onShareClick()}"/>
 
         <View
             android:layout_width="match_parent"
