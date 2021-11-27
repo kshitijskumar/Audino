@@ -36,9 +36,9 @@ class ReadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments?.getString(BOOK_ID) != mainViewModel.currBookSummary.value?.bookId ?: true) {
-            mainViewModel.getSummaryOfCurrentBook(arguments?.getString(BOOK_ID).toString())
-        }
+
+        mainViewModel.getSummaryOfCurrentBook(arguments?.getString(BOOK_ID).toString())
+        readSectionVm.currBookId = arguments?.getString(BOOK_ID).toString()
 
         binding.btnEditSection.setOnClickListener {
             val  editBottomSheet = ReadSectionEditBottomSheetFragment.newInstance()

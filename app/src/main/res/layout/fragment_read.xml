@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:elevation="10dp"
-            android:visibility="@{(mainVm.currBookSummary == null &amp;&amp; mainVm.currBookSummary.summary.isEmpty()) ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{(mainVm.currBookSummary == null || mainVm.currBookSummary.summary.isEmpty() || mainVm.currBookSummary.bookId != vm.currBookId) ? View.VISIBLE : View.GONE}"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="@id/progressBar"
             android:textSize="14sp"
             android:elevation="10dp"
-            android:visibility="@{(mainVm.currBookSummary == null &amp;&amp; mainVm.currBookSummary.summary.isEmpty()) ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{(mainVm.currBookSummary == null || mainVm.currBookSummary.summary.isEmpty() || mainVm.currBookSummary.bookId != vm.currBookId) ? View.VISIBLE : View.GONE}"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -65,6 +65,7 @@
                     android:layout_marginTop="18dp"
                     android:layout_marginHorizontal="20dp"
                     android:gravity="center"
+                    android:visibility="@{(mainVm.currBookSummary == null || mainVm.currBookSummary.summary.isEmpty() || mainVm.currBookSummary.bookId != vm.currBookId) ? View.GONE : View.VISIBLE}"
                     android:text="@{mainVm.currBookSummary.bookTitle}"/>
 
                 <TextView
@@ -81,6 +82,7 @@
                     android:textColor="@color/black_1"
                     android:layout_marginTop="14dp"
                     preferredTextColor="@{vm.bgOption}"
+                    android:visibility="@{(mainVm.currBookSummary == null || mainVm.currBookSummary.summary.isEmpty() || mainVm.currBookSummary.bookId != vm.currBookId) ? View.GONE : View.VISIBLE}"
                     android:text="@{mainVm.currBookSummary.authorName}"/>
 
                 <TextView
@@ -97,6 +99,7 @@
                     android:layout_marginTop="20dp"
                     android:lineSpacingMultiplier="1.2"
                     preferredTextColor="@{vm.bgOption}"
+                    android:visibility="@{(mainVm.currBookSummary == null || mainVm.currBookSummary.summary.isEmpty() || mainVm.currBookSummary.bookId != vm.currBookId) ? View.GONE : View.VISIBLE}"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
                     android:text="@{mainVm.currBookSummary.summary}"/>
 

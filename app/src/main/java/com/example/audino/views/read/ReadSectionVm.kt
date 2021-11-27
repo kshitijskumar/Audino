@@ -16,6 +16,8 @@ class ReadSectionVm {
     val textSizeOption = ObservableField(TextSizeOptions.TextSmall)
     val bgOption = ObservableField(BackgroundOption.BgLight)
 
+    var currBookId: String = ""
+
     fun updateTextSizeOption(textSizeOption: TextSizeOptions) {
         this.textSizeOption.set(textSizeOption)
     }
