@@ -3,6 +3,7 @@ package com.example.audino.player.callbacks
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -21,7 +22,7 @@ class AudinoSessionCallback(
     private val notificationManager: AudinoNotificationManager
 ) : MediaSessionCompat.Callback() {
 
-    private var currentPositionHandler = Handler()
+    private var currentPositionHandler = Handler(Looper.getMainLooper())
 
     override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
         super.onPlayFromMediaId(mediaId, extras)
