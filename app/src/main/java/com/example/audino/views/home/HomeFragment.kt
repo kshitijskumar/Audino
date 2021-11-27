@@ -71,18 +71,22 @@ class HomeFragment : Fragment() {
     private fun observeValues() {
         mainViewModel.genresList.observe(viewLifecycleOwner) {
             genreListAdapter.submitList(it)
-            if (bookIdFromDeeplink != null && !isDeeplinkFlowHandled) {
-                isDeeplinkFlowHandled = true
-                if (MainRepositoryImpl.bookIdAndBookResponseMap.containsKey(bookIdFromDeeplink)) {
-                    MainRepositoryImpl.bookIdAndBookResponseMap[bookIdFromDeeplink]?.let { book ->
-                        BookDetailsBottomSheet.newInstance().apply {
-                            setBookDetails(book)
-                            show(this@HomeFragment.childFragmentManager, BookDetailsBottomSheet.TAG)
-                        }
+            handleDeeplinkFlowIfAny()
+            Log.d("GenreList", "$it")
+        }
+    }
+
+    private fun handleDeeplinkFlowIfAny() {
+        if (bookIdFromDeeplink != null && !isDeeplinkFlowHandled) {
+            isDeeplinkFlowHandled = true
+            if (MainRepositoryImpl.bookIdAndBookResponseMap.containsKey(bookIdFromDeeplink)) {
+                MainRepositoryImpl.bookIdAndBookResponseMap[bookIdFromDeeplink]?.let { book ->
+                    BookDetailsBottomSheet.newInstance().apply {
+                        setBookDetails(book)
+                        show(this@HomeFragment.childFragmentManager, BookDetailsBottomSheet.TAG)
                     }
                 }
             }
-            Log.d("GenreList", "$it")
         }
     }
 
