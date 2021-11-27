@@ -45,6 +45,8 @@ class MainViewModel(
     private val _currBookSummary = MutableLiveData<BookSummaryResponse>()
     val currBookSummary: LiveData<BookSummaryResponse> get() = _currBookSummary
 
+    private var shouldUpdateSeekbarListener: ((Boolean) -> Unit)? = null
+
     init {
         serviceConnection.subscribe(ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {
             override fun onChildrenLoaded(
@@ -70,6 +72,7 @@ class MainViewModel(
                 putSerializable("Book", book)
             }
             serviceConnection.transportControls.playFromMediaId(book.bookId, bundle)
+            shouldUpdateSeekbarListener?.invoke(true)
         } else {
             Log.d("PlayPauseId", "playing is: ${isPlaying.value}")
             if (isPlaying.value == true) {
@@ -78,6 +81,7 @@ class MainViewModel(
             } else {
                 serviceConnection.transportControls.play()
                 togglePlayState(true)
+                shouldUpdateSeekbarListener?.invoke(true)
             }
         }
     }
@@ -115,6 +119,10 @@ class MainViewModel(
 
     fun togglePlayState(isPlaying: Boolean) {
         _isPlaying.value = isPlaying
+    }
+
+    fun setOnShouldUpdateSeekbar(listener: (Boolean) -> Unit) {
+        shouldUpdateSeekbarListener = listener
     }
 
     fun getSummaryOfCurrentBook(bookId: String) = viewModelScope.launch {
