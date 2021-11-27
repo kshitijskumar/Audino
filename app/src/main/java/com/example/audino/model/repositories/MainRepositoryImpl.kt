@@ -21,150 +21,6 @@ class MainRepositoryImpl(
         val bookIdAndBookResponseMap = mutableMapOf<String, BookResponse>()
     }
 
-//    override suspend fun getAllBooks(): AllBooksResponse {
-//        //Todo: Dummy response for now
-//        delay(1500L)
-//        return AllBooksResponse(
-//            genres = listOf(
-//                GenreResponse(
-//                    "gen1",
-//                    "Fantasy",
-//                    listOf(
-//                        BookResponse(
-//                            "gen1_book1",
-//                            "Atomic Habits",
-//                            "James Clear",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/audino-327610.appspot.com/o/84%2Faudio_20.mp3?alt=media",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen1_book2",
-//                            "Book 2",
-//                            "Author 2",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen1_book3",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen1_book4",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        )
-//                    )
-//                ),
-//                GenreResponse(
-//                    "gen2",
-//                    "Adventure",
-//                    listOf(
-//                        BookResponse(
-//                            "gen2_book1",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen2_book2",
-//                            "Book 2",
-//                            "Author 2",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen2_book3",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen2_book4",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        )
-//                    )
-//                ),
-//                GenreResponse(
-//                    "gen3",
-//                    "Thriller",
-//                    listOf(
-//                        BookResponse(
-//                            "gen3_book1",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen3_book2",
-//                            "Book 2",
-//                            "Author 2",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen3_book3",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen3_book4",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        ),
-//                        BookResponse(
-//                            "gen3_book5",
-//                            "Book 1",
-//                            "Author 1",
-//                            "https://firebasestorage.googleapis.com/v0/b/horizon-e926a.appspot.com/o/EtsDFIHIODX3yrzWYfx4viq6lgc2_1608738462477.jpg?alt=media&token=cbd7539a-664d-4e06-b9c9-76c12e9d16de",
-//                            "https://firebasestorage.googleapis.com/v0/b/learning-firebase-f7960.appspot.com/o/sasageyo_lofi.mp3?alt=media&token=719f0afd-1981-40ab-99ff-c7c4d7cfc795",
-//                            "Description 1",
-//                            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
-//                        )
-//                    )
-//                )
-//            )
-//        )
-//    }
-
     override suspend fun getAllBooks(): AllBooksResponse {
         return withContext(Dispatchers.IO) {
             try {
@@ -199,10 +55,18 @@ class MainRepositoryImpl(
     override suspend fun getBookSummaryContent(bookId: String): BookSummaryResponse {
         //returning dummy for now
         return BookSummaryResponse(
-            "gen3_book5",
-            "Atomic Habits",
-            "James Clear $bookId",
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad architecto blanditiis doloremque error, incidunt maiores molestias quaerat quam qui quo reprehenderit, veniam voluptatum! Fuga harum officia ratione repellendus vitae. Aliquam, dignissimos est? Alias amet autem, blanditiis consectetur consequatur cum dolores est eum facere fugit obcaecati praesentium, quas unde ut voluptatem?"
+            bookId,
+            bookIdAndBookResponseMap[bookId]?.bookName ?: "Some book",
+            bookIdAndBookResponseMap[bookId]?.authorName ?: "Some author",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eu scelerisque felis imperdiet proin. Pharetra sit amet aliquam id diam. Odio aenean sed adipiscing diam. Nunc non blandit massa enim nec. At tempor commodo ullamcorper a lacus vestibulum sed. Nunc mattis enim ut tellus elementum sagittis vitae et leo. Volutpat est velit egestas dui id ornare. Senectus et netus et malesuada fames ac turpis egestas. Felis eget velit aliquet sagittis id consectetur purus. Tortor dignissim convallis aenean et tortor. Lacus laoreet non curabitur gravida arcu ac tortor dignissim. Convallis tellus id interdum velit laoreet id. Quis imperdiet massa tincidunt nunc pulvinar sapien et. Fringilla ut morbi tincidunt augue. Sit amet commodo nulla facilisi nullam vehicula ipsum a arcu. Mus mauris vitae ultricies leo. Id velit ut tortor pretium viverra suspendisse potenti.\n" +
+                    "\n" +
+                    "Porta non pulvinar neque laoreet suspendisse interdum consectetur libero. Sed odio morbi quis commodo odio aenean sed. Blandit cursus risus at ultrices mi tempus. Nibh sit amet commodo nulla facilisi nullam. Bibendum ut tristique et egestas quis ipsum suspendisse. Sed lectus vestibulum mattis ullamcorper velit sed. Neque egestas congue quisque egestas diam in arcu. Ut pharetra sit amet aliquam id diam maecenas ultricies mi. Tellus in hac habitasse platea dictumst vestibulum rhoncus est pellentesque. In massa tempor nec feugiat nisl. Morbi non arcu risus quis. Nunc lobortis mattis aliquam faucibus purus in. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat. Eget felis eget nunc lobortis mattis aliquam faucibus purus. Ridiculus mus mauris vitae ultricies leo integer. Ipsum nunc aliquet bibendum enim. Lectus arcu bibendum at varius vel pharetra. Neque convallis a cras semper auctor neque. Donec enim diam vulputate ut pharetra sit amet. Ornare aenean euismod elementum nisi.\n" +
+                    "\n" +
+                    "Nulla facilisi etiam dignissim diam quis. Faucibus pulvinar elementum integer enim neque. Ut sem nulla pharetra diam sit. Vestibulum lectus mauris ultrices eros in cursus turpis. Aliquet nibh praesent tristique magna. Adipiscing at in tellus integer feugiat scelerisque varius morbi enim. Felis eget nunc lobortis mattis aliquam faucibus. Tortor posuere ac ut consequat semper viverra nam libero. Neque egestas congue quisque egestas diam in. Ridiculus mus mauris vitae ultricies leo. Euismod quis viverra nibh cras pulvinar mattis nunc. Volutpat diam ut venenatis tellus. Pretium fusce id velit ut tortor pretium viverra. Turpis in eu mi bibendum neque egestas congue quisque egestas. Tristique senectus et netus et. Purus sit amet luctus venenatis lectus magna. Massa eget egestas purus viverra accumsan in nisl nisi. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et ligula. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa.\n" +
+                    "\n" +
+                    "Magna ac placerat vestibulum lectus mauris ultrices eros in cursus. Neque volutpat ac tincidunt vitae semper. In mollis nunc sed id semper risus in hendrerit gravida. Neque convallis a cras semper auctor neque vitae tempus quam. In aliquam sem fringilla ut morbi tincidunt augue. Lectus quam id leo in vitae turpis. Nec ultrices dui sapien eget. Nulla aliquet enim tortor at. Amet consectetur adipiscing elit duis. Eu tincidunt tortor aliquam nulla facilisi cras fermentum odio. Congue quisque egestas diam in arcu cursus. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et ligula. Sollicitudin ac orci phasellus egestas tellus rutrum tellus. Urna molestie at elementum eu facilisis sed. Non nisi est sit amet facilisis magna.\n" +
+                    "\n" +
+                    "Consequat interdum varius sit amet mattis vulputate enim. Libero nunc consequat interdum varius. Eu ultrices vitae auctor eu augue ut. Vitae congue eu consequat ac. Sed velit dignissim sodales ut. Suspendisse ultrices gravida dictum fusce ut placerat orci nulla. Fermentum odio eu feugiat pretium nibh ipsum. Et netus et malesuada fames ac turpis egestas integer. Eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nunc mattis enim ut tellus elementum sagittis vitae et."
         )
     }
 }

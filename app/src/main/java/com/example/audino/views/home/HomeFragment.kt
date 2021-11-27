@@ -1,6 +1,7 @@
 package com.example.audino.views.home
 
 import android.os.Bundle
+import android.support.v4.media.MediaMetadataCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.audino.utils.Injector
 import com.example.audino.viewmodels.MainViewModel
 import com.example.audino.views.adapters.GenreListAdapter
 import com.example.audino.views.bookdetails.BookDetailsBottomSheet
+import com.example.audino.views.callbacks.SwitchFragmentCallback
 
 class HomeFragment : Fragment() {
 
@@ -44,8 +46,22 @@ class HomeFragment : Fragment() {
         //TODO: remove this
         binding.tvGreet.text = "Hey Kshitij!"
 
+        initViews()
         initRecyclerView()
         observeValues()
+    }
+
+    private fun initViews() {
+        binding.layoutNowPlaying.root.setOnClickListener {
+            val currBookMetaDataCompat = mainViewModel.currBook.value
+            currBookMetaDataCompat?.let { metaData ->
+                val bookId = metaData.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+                val book = MainRepositoryImpl.bookIdAndBookResponseMap[bookId]
+                book?.let {
+                    (requireContext() as SwitchFragmentCallback).openPlayerFragment(book)
+                }
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -73,6 +89,11 @@ class HomeFragment : Fragment() {
             genreListAdapter.submitList(it)
             handleDeeplinkFlowIfAny()
             Log.d("GenreList", "$it")
+        }
+
+        mainViewModel.currBook.observe(viewLifecycleOwner) {
+            binding.layoutNowPlaying.root.visibility = if (it == null) View.GONE else View.VISIBLE
+            binding.layoutNowPlaying.tvTitle.text = it?.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
         }
     }
 
