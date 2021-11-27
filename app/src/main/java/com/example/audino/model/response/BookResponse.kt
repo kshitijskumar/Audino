@@ -1,5 +1,6 @@
 package com.example.audino.model.response
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class BookResponse(
@@ -8,6 +9,6 @@ data class BookResponse(
     val authorName: String? = null,
     val thumbnailUrl: String? = null,
     val audioUrl: String? = null,
-    val description: String? = null,
-    val summary: String? = null
+    @SerializedName("Description") val description: String? = null,
+    @SerializedName("SummaryText") val summary: String? = null
 ) : Serializable

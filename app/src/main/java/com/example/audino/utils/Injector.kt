@@ -3,6 +3,7 @@ package com.example.audino.utils
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.example.audino.model.api.ApiService
 import com.example.audino.model.repositories.MainRepository
 import com.example.audino.model.repositories.MainRepositoryImpl
 import com.example.audino.player.mediasource.MediaSource
@@ -18,6 +19,8 @@ class Injector private constructor() {
     private var sharedPrefs: SharedPreferences? = null
 
     private var serviceConnection: AudinoServiceConnection? = null
+
+    private var apiService: ApiService? = null
 
     fun provideMainRepository() : MainRepository {
         if (mainRepository == null) {
@@ -47,6 +50,13 @@ class Injector private constructor() {
 
     fun provideSharedPrefs() : SharedPreferences {
         return sharedPrefs ?: throw IllegalStateException("Preference not instantiated to provide")
+    }
+
+    fun provideApiService() : ApiService {
+        if (apiService == null) {
+            apiService = ApiService.getApiService()
+        }
+        return apiService!!
     }
 
     companion object {
