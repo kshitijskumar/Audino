@@ -15,4 +15,6 @@ interface MainRepository {
     suspend fun unsaveBookFromDb(book: BookResponse)
 
     suspend fun getAllSavedBooks() : List<BookResponse>
+
+    suspend fun isBookExistInSaved(bookId: String) : Boolean
 }

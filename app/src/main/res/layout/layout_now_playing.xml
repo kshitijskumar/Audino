@@ -43,6 +43,16 @@
                 android:fontFamily="@font/gilroy_semibold"
                 android:textColor="@color/white"/>
 
+            <ImageView
+                android:id="@+id/iv_music_bars"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="12dp"
+                tools:src="@color/red"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -26,7 +26,10 @@
             android:layout_margin="20dp"
             android:textSize="24sp"
             android:fontFamily="@font/gilroy_extrabold"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:includeFontPadding="false"
+            app:drawableEndCompat="@drawable/ic_discover_golder_lines"
+            android:drawablePadding="8dp"/>
 
         <TextView
             android:id="@+id/tvTextSize"

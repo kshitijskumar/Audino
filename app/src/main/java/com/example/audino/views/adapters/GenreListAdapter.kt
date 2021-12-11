@@ -68,6 +68,7 @@ class GenreListAdapter(private val serviceConnection: AudinoServiceConnection) :
                     }
                 })
                 booksIdAdapterMap[genre.genreId!!] = bookAdapter
+                LinearSnapHelper().attachToRecyclerView(binding.rvBooks)
                 bookAdapter
             }
             binding.rvBooks.adapter = adapter

@@ -101,4 +101,8 @@ class MainRepositoryImpl(
             dao.getAllSavedBooks()
         }
     }
+
+    override suspend fun isBookExistInSaved(bookId: String): Boolean {
+        return dao.isBookSaved(bookId) == 0
+    }
 }
