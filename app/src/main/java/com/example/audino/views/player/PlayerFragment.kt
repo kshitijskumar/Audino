@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.audino.databinding.FragmentPlayerBinding
@@ -46,6 +47,8 @@ class PlayerFragment : Fragment() {
 
         override fun onSaveClick(isSaved: Boolean) {
             mainViewModel.saveUnsaveBookInDb(bookResponse, isSaved)
+            val toastMsg = "Book " + if (isSaved) "unsaved" else "saved"
+            Toast.makeText(requireContext(), toastMsg, Toast.LENGTH_SHORT).show()
         }
     })
 
