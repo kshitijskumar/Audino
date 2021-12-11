@@ -13,4 +13,6 @@ interface MainRepository {
     suspend fun saveBookInDb(book: BookResponse)
 
     suspend fun unsaveBookFromDb(book: BookResponse)
+
+    suspend fun getAllSavedBooks() : List<BookResponse>
 }

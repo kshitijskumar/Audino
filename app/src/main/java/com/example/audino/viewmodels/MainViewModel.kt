@@ -47,6 +47,9 @@ class MainViewModel(
 
     private var shouldUpdateSeekbarListener: ((Boolean) -> Unit)? = null
 
+    private val _savedBooks = MutableLiveData(listOf<BookResponse>())
+    val savedBooks: LiveData<List<BookResponse>> get() = _savedBooks
+
     init {
         serviceConnection.subscribe(ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {
             override fun onChildrenLoaded(
@@ -140,6 +143,11 @@ class MainViewModel(
         } else {
             repository.saveBookInDb(book)
         }
+    }
+
+    fun getAllSavedBooks() = viewModelScope.launch {
+        val result = repository.getAllSavedBooks()
+        _savedBooks.value = result
     }
 
 

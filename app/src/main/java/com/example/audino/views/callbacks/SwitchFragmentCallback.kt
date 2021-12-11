@@ -7,4 +7,6 @@ interface SwitchFragmentCallback {
     fun openPlayerFragment(book: BookResponse)
 
     fun openReadFragment(bookId: String)
+
+    fun openLibraryFragment()
 }

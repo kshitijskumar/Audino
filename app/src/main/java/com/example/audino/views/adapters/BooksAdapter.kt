@@ -43,7 +43,7 @@ class BooksAdapter(private val isLinear: Boolean = true) :  ListAdapter<BookResp
         val book = getItem(position)
         when(holder) {
             is LinearBooksViewHolder -> holder.onBind(book)
-            is GridBooksViewHolder ->  Unit  //TODO
+            is GridBooksViewHolder ->  holder.onBind(book)
             else -> throw IllegalStateException("No valid Viewholder")
         }
     }
@@ -72,5 +72,19 @@ class BooksAdapter(private val isLinear: Boolean = true) :  ListAdapter<BookResp
 
     }
 
-    inner class GridBooksViewHolder(private val binding: LayoutGridBookBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class GridBooksViewHolder(private val binding: LayoutGridBookBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val itemVm = LinearBookItemVm()
+
+        fun onBind(book: BookResponse) {
+            itemVm.initData(book)
+            onBookClickListener?.let {
+                itemVm.setOnBookClick(it)
+            }
+        }
+
+        init {
+            binding.vm = itemVm
+        }
+
+    }
 }

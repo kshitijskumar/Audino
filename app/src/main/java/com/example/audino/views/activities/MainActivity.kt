@@ -22,6 +22,7 @@ import com.example.audino.utils.Constants.ACTION_SEND_PENDING_BROADCAST
 import com.example.audino.viewmodels.MainViewModel
 import com.example.audino.views.callbacks.SwitchFragmentCallback
 import com.example.audino.views.home.HomeFragment
+import com.example.audino.views.library.LibraryFragment
 import com.example.audino.views.player.PlayerFragment
 import com.example.audino.views.read.ReadFragment
 import com.example.audino.views.read.ReadFragment.Companion.BOOK_ID
@@ -105,6 +106,14 @@ class MainActivity : AppCompatActivity(), SwitchFragmentCallback {
         val readFragment = ReadFragment.newInstance(getReadFragmentArgs(bookId))
         supportFragmentManager.beginTransaction()
             .replace(R.id.flContainer, readFragment, "ReadFragment")
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun openLibraryFragment() {
+        val libraryFragment = LibraryFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.flContainer, libraryFragment, "LibraryFragment")
             .addToBackStack(null)
             .commit()
     }

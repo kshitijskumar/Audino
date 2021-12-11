@@ -95,4 +95,10 @@ class MainRepositoryImpl(
             dao.unsaveBookFromDb(book)
         }
     }
+
+    override suspend fun getAllSavedBooks(): List<BookResponse> {
+        return withContext(Dispatchers.IO) {
+            dao.getAllSavedBooks()
+        }
+    }
 }

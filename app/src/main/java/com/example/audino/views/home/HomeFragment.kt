@@ -62,6 +62,10 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        binding.tvSavedBooks.setOnClickListener {
+            (requireContext() as SwitchFragmentCallback).openLibraryFragment()
+        }
     }
 
     private fun initRecyclerView() {
