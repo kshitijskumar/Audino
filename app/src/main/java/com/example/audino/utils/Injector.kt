@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.example.audino.model.api.ApiService
+import com.example.audino.model.dao.SavedBooksDao
+import com.example.audino.model.db.AudinoDatabase
 import com.example.audino.model.repositories.MainRepository
 import com.example.audino.model.repositories.MainRepositoryImpl
 import com.example.audino.player.mediasource.MediaSource
@@ -21,6 +23,10 @@ class Injector private constructor() {
     private var serviceConnection: AudinoServiceConnection? = null
 
     private var apiService: ApiService? = null
+
+    private var saveBookDao: SavedBooksDao? = null
+
+    private var needContext: ((String) -> Context)? = null
 
     fun provideMainRepository() : MainRepository {
         if (mainRepository == null) {
@@ -59,6 +65,13 @@ class Injector private constructor() {
         return apiService!!
     }
 
+    fun providesSaveBooksDao() : SavedBooksDao {
+        if (saveBookDao == null) {
+            saveBookDao = AudinoDatabase.getAudinoDb(needContext!!.invoke("Audino Databse setup")).savedBooksDao()
+        }
+        return saveBookDao!!
+    }
+
     companion object {
         private var injector: Injector? = null
         fun getInjector() : Injector {
@@ -67,6 +80,14 @@ class Injector private constructor() {
             }
 
             return injector!!
+        }
+
+        fun setupInjector(needContext: (String) -> Context) {
+            getInjector().apply {
+                this.needContext = needContext
+                this.setupSharedPrefs(needContext.invoke("Setup shared prefs"))
+            }
+
         }
     }
 }

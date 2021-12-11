@@ -2,6 +2,7 @@ package com.example.audino.views.player
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import com.example.audino.R
 import com.example.audino.model.response.BookResponse
@@ -12,8 +13,15 @@ class PlayerItemVm(val playerClickCallback: PlayerFragment.PlayerFragmentClickCa
 
     val book = ObservableField<BookResponse>()
 
+    val isBookSaved = ObservableBoolean(false)
+
     fun initBook(bookResponse: BookResponse) {
         book.set(bookResponse)
+    }
+
+    fun saveUnsaveBook() {
+        playerClickCallback.onSaveClick(isBookSaved.get())
+        isBookSaved.set(!isBookSaved.get())
     }
 
     companion object {

@@ -134,6 +134,15 @@ class MainViewModel(
         _currBookSummary.postValue(bookSummary)
     }
 
+    fun saveUnsaveBookInDb(book: BookResponse, isSaved: Boolean) = viewModelScope.launch {
+        if (isSaved) {
+            repository.unsaveBookFromDb(book)
+        } else {
+            repository.saveBookInDb(book)
+        }
+    }
+
+
     companion object {
         private class MainViewModelFactory(private val serviceConnection: AudinoServiceConnection) : ViewModelProvider.NewInstanceFactory() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {

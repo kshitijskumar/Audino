@@ -43,6 +43,10 @@ class PlayerFragment : Fragment() {
         override fun onReadClick() {
             (context as SwitchFragmentCallback).openReadFragment(bookResponse.bookId ?: "")
         }
+
+        override fun onSaveClick(isSaved: Boolean) {
+            mainViewModel.saveUnsaveBookInDb(bookResponse, isSaved)
+        }
     })
 
     override fun onCreateView(
@@ -106,5 +110,6 @@ class PlayerFragment : Fragment() {
         fun onCloseClick()
         fun playBook()
         fun onReadClick()
+        fun onSaveClick(isSaved: Boolean)
     }
 }
